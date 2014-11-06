@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="backbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="invader_top.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="invader_bot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="invader_mid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="invader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invader_top.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invader_bot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invader_mid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Framework.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Player.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sprites\Invader.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Bottom0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Player.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Bottom1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Middle0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Middle1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Top0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Top1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

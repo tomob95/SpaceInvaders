@@ -1,0 +1,34 @@
+﻿Build started 04/11/2014 11:16:28 PM.
+     1>Project "C:\Users\Tom\Desktop\Space Invaders\Framework\Framework.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\Space Invaders.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\Framework.res" Framework.rc 
+         
+     1>Framework.rc(52): error RC2135: file not found: Sprites\SpaceInvader\Bottom0.png
+         
+         
+     1>Framework.rc(53): error RC2135: file not found: Sprites\SpaceInvader\Bottom1.png
+         
+         
+     1>Framework.rc(54): error RC2135: file not found: Sprites\SpaceInvader\Middle0.png
+         
+         
+     1>Framework.rc(55): error RC2135: file not found: Sprites\SpaceInvader\Middle1.png
+         
+         
+     1>Framework.rc(56): error RC2135: file not found: Sprites\SpaceInvader\Player.png
+         
+         
+     1>Framework.rc(57): error RC2135: file not found: Sprites\SpaceInvader\Top0.png
+         
+         
+     1>Framework.rc(58): error RC2135: file not found: Sprites\SpaceInvader\Top1.png
+         
+     1>Done Building Project "C:\Users\Tom\Desktop\Space Invaders\Framework\Framework.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.17
