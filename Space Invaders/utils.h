@@ -19,4 +19,6 @@ std::string ToString(const T& _value)
 	return (theStream.str());
 }
 
+const int kiBulletSpeed = 5;
+
 #endif // __UTILS_H__

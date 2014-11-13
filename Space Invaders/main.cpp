@@ -69,10 +69,12 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 {
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
-	const int kiWidth = 800;
+	const int kiWidth = 835;
 	const int kiHeight = 800;
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Space Invaders");
 	CGame& rGame = CGame::GetInstance();
+
+
 
 	if (!rGame.Initialise(_hInstance, hwnd, kiWidth, kiHeight))
 	{

@@ -45,7 +45,7 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 	m_fTimeElapsed = 5;
-//	m_pBall = new CBall();
+	//	m_pBall = new CBall();
 //	VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));
 	m_pPlayer = new CPlayer();
 	VALIDATE(m_pPlayer->Initialise());
@@ -54,7 +54,7 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	// and a little bit up from the bottom of the window.
 	//m_pPlayer->SetX(_iWidth / 2.0f);
 	//m_pPlayer->SetY(_iHeight - ( 4 * m_pPlayer->GetHeight()));
-	m_pPlayer->SetX(400);
+	m_pPlayer->SetX((_iWidth/2) - (m_pPlayer->GetWidth()/2));
 	m_pPlayer->SetY(400);
 
 	const int kiNumInvaders = 55;
@@ -68,9 +68,9 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	{
 		CInvader* pInvader = new CInvader();
 		VALIDATE(pInvader->Initialise());
-		pInvader->SetX(static_cast<float>(iCurrentX));
-		pInvader->SetY(static_cast<float>(iCurrentY));
-		iCurrentX += static_cast<int>(pInvader->GetWidth()) + kiGap;
+		pInvader->SetX(iCurrentX);
+		pInvader->SetY(iCurrentY);
+		iCurrentX += pInvader->GetWidth() + kiGap;
 		if (iCurrentX > 500)
 		{
 			iCurrentX = kiStartX;
@@ -135,7 +135,7 @@ bool CLevel::ProcessInvaderWallCollision(float _fDeltaTick)
 {
 	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 	{
-		if ((m_vecInvaders[i]->GetX() + 30 > 800 - m_vecInvaders[i]->GetWidth()  && CInvader::GetDirection()) ||  (m_vecInvaders[i]->GetX() -30 < 20 && !CInvader::GetDirection()))
+		if ((m_vecInvaders[i]->GetX() + 30 > m_iWidth - m_vecInvaders[i]->GetWidth()  && CInvader::GetDirection()) ||  (m_vecInvaders[i]->GetX() -30 < 20 && !CInvader::GetDirection()))
 		{
 			return 1;
 		}
@@ -227,6 +227,11 @@ void CLevel::MoveInvadersDown(float _fDeltaTick)
 		m_vecInvaders[i]->SetY(m_vecInvaders[i]->GetY() + 30);
 		m_vecInvaders[i]->ProcessSprite(_fDeltaTick);
 	}
+}
+
+void CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
+{
+	
 }
 
 void CLevel::DrawScore()

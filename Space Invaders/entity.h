@@ -17,12 +17,12 @@ virtual bool Initialise(const int _kiSpriteID);
 virtual bool Initialise(const int _kiSpriteID, const int _kiMaskID);
 virtual void Draw();
 virtual void Process(float _fDeltaTick);
-void SetX(float _f);
-void SetY(float _f);
-float GetX() const;
-float GetY() const;
-float GetHeight() const;
-float GetWidth() const;
+void SetX(int _i);
+void SetY(int _i);
+int GetX() const;
+int GetY() const;
+int GetHeight() const;
+int GetWidth() const;
 protected:
 private:
 CEntity(const CEntity& _kr);
@@ -31,8 +31,8 @@ CEntity& operator= (const CEntity& _kr);
 public:
 protected:
 CSprite* m_pSprite;
-float m_fX;
-float m_fY;
+int m_fX;
+int m_fY;
 private:
 };
 #endif // __ENTITY_H__

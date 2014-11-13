@@ -9,8 +9,6 @@
 // Static Function Prototypes
 // Implementation
 CEntity::CEntity()
-: m_fX(0.0f)
-, m_fY(0.0f)
 {
 }
 CEntity::~CEntity()
@@ -40,37 +38,35 @@ void CEntity::Draw()
 
 void CEntity::Process(float _fDeltaTick)
 {
-	m_pSprite->SetX(static_cast<int>(m_fX));
-	m_pSprite->SetY(static_cast<int>(m_fY));
 	m_pSprite->Process(_fDeltaTick);
 }
 
-float CEntity::GetX() const
+int CEntity::GetX() const
 {
-	return (m_fX);
+	return (m_pSprite->GetX());
 }
 
-float CEntity::GetY() const
+int CEntity::GetY() const
 {
-	return (m_fY);
+	return (m_pSprite->GetY());
 }
 
-float CEntity::GetWidth() const
+int CEntity::GetWidth() const
 {
-	return (static_cast<float>(m_pSprite->GetWidth()));
+	return (m_pSprite->GetWidth());
 }
 
-float CEntity::GetHeight() const
+int CEntity::GetHeight() const
 {
-	return (static_cast<float>(m_pSprite->GetHeight()));
+	return (m_pSprite->GetHeight());
 }
 
-void CEntity::SetX(float _f)
+void CEntity::SetX(int _i)
 {
-	m_fX = _f;
+	m_pSprite->SetX(_i);
 }
 
-void CEntity::SetY(float _f)
+void CEntity::SetY(int _i)
 {
-	m_fY = _f;
+	m_pSprite->SetY(_i);
 }

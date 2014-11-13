@@ -29,6 +29,7 @@ class CLevel
 		/*void ProcessCheckForWin();
 		void ProcessBallBounds(); */
 		void UpdateScoreText();
+		void CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
@@ -47,6 +48,7 @@ class CLevel
 		int m_iHeight;
 		int m_iInvadersRemaining;
 		std::wstring m_strScore;
+		int m_iBulletSpeed;
 	private:
 };
 

@@ -50,11 +50,11 @@ void CInvader::Process(float _fDeltaTick)
 	{
 		if (m_bDirection)
 		{
-			m_fX = m_fX + 30;
+			SetX(GetX() + 30);
 		}
 		else
 		{
-			m_fX = m_fX - 30;
+			SetX(GetX() - 30);
 		}
 		CEntity::Process(_fDeltaTick);
 	}
