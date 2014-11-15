@@ -1,12 +1,30 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: level.h
+// Description	: Header file for level class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 #pragma once
+
 #if !defined(__LEVEL_H__)
 #define __LEVEL_H__
+
 // Library Includes
 #include <vector>
 #include <string>
+
 // Local Includes
 // Types
 // Constants
+
 // Prototypes
 class CInvader;
 class CPlayer;
@@ -14,25 +32,25 @@ class CLevel
 {
 	// Member Functions
 	public:
+		// Constructor/destructor
 		CLevel();
 		virtual ~CLevel();
+
 		virtual bool Initialise(int _iWidth, int _iHeight);
 		virtual void Draw();
 		virtual void Process(float _fDeltaTick);
 		CPlayer* GetPlayer() const;
 		int GetInvadersRemaining() const;
 		static void MoveInvadersDown(float _fDeltaTick);
+
 	protected:
-		/*void ProcessBallWallCollision();
-		void ProcessBallPaddleCollision();*/
 		void ProcessInvaderBulletCollision();
-		/*void ProcessCheckForWin();
-		void ProcessBallBounds(); */
 		void UpdateScoreText();
 		void CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
+
 	private:
 		float m_fTimeElapsed;
 		CLevel(const CLevel& _kr);
@@ -41,7 +59,6 @@ class CLevel
 	// Member Variables
 	public:
 	protected:
-		//CBall* m_pBall;
 		CPlayer* m_pPlayer;
 		static std::vector<CInvader*> m_vecInvaders;
 		int m_iWidth;
@@ -49,6 +66,7 @@ class CLevel
 		int m_iInvadersRemaining;
 		std::wstring m_strScore;
 		int m_iBulletSpeed;
+
 	private:
 };
 

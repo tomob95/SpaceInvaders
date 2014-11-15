@@ -1,9 +1,24 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: utils.h
+// Description	: Header file for utils class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 #pragma once
 #if !defined(__UTILS_H__)
 #define __UTILS_H__
 
 // Library Includes
 #include <strstream>
+
 // Local Includes
 // Types
 // Constants

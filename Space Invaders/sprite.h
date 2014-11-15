@@ -1,19 +1,38 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: sprite.h
+// Description	: Header file for sprite class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 #pragma once
+
 #if !defined(__SPRITE_H__)
 #define __SPRITE_H__
+
 // Library Includes
 #include "windows.h"
+
 // Local Includes
 // Types
 // Constants
-// Prototypes
 
+// Prototypes
 class CSprite
 {
 // Member Functions
 public:
+	// Constructor/destructor
 	CSprite();
 	~CSprite();
+
 	bool Initialise(int _iResourceID);
 	bool Initialise(int _iResourceID, int _iMaskResourceID);
 	void Draw();
@@ -26,6 +45,7 @@ public:
 	void SetY(int _i);
 	void TranslateRelative(int _iX, int _iY);
 	void TranslateAbsolute(int _iX, int _iY);
+
 protected:
 private:
 	CSprite(const CSprite& _kr);
@@ -34,7 +54,7 @@ private:
 // Member Variables
 public:
 protected:
-//Center handle
+	//Center handle
 	int m_iX;
 	int m_iY;
 	HBITMAP m_hSprite;
@@ -43,6 +63,7 @@ protected:
 	BITMAP m_bitmapMask;
 	static HDC s_hSharedSpriteDC;
 	static int s_iRefCount;
+
 private:
 };
 #endif // __SPRITE_H__
