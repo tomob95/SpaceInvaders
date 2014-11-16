@@ -42,8 +42,10 @@ public:
 	void Process(float _fDeltaTick);
 	void ExecuteOneFrame();
 	CBackBuffer* GetBackBuffer();
+	CLevel* GetLevel();
 	HINSTANCE GetAppInstance();
 	HWND GetWindow();
+	void SetMouseCoords(int _iX, int _iY);
 
 	// Singleton Methods
 	static CGame& GetInstance();

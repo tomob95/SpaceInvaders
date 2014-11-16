@@ -38,10 +38,11 @@
  ********************/
 CBullet::CBullet(bool _bDirection, int _iXPos, int _iYPos)
 	: m_bHit(false),
-	  m_bDirection(_bDirection) // Set direction as parameter
+	  m_bDirection(_bDirection)
+	  // Set direction as parameter
 {
 	// Set x & y position
-	m_fX =_iXPos; 
+	m_fX = _iXPos; 
 	m_fY = _iYPos;
 }
 
@@ -64,8 +65,9 @@ CBullet::~CBullet()
  ********************/
 bool CBullet::Initialise()
 {
-	// Validate and initialise entitiy
-	VALIDATE(CEntity::Initialise(IDB_INVADER));
+	// TODO: need sprite
+	// Validate and initialise entity
+	VALIDATE(CEntity::Initialise( IDB_PLAYER ));
 
 	return (true);
 }
@@ -136,6 +138,7 @@ void CBullet::Process(float _fDeltaTick)
 		}
 		// Process entity
 		CEntity::Process(_fDeltaTick);
+		Draw();
 	}
 }
 

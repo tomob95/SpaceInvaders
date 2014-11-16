@@ -28,6 +28,7 @@
 // Prototypes
 class CInvader;
 class CPlayer;
+class CBullet;
 class CLevel
 {
 	// Member Functions
@@ -42,11 +43,14 @@ class CLevel
 		CPlayer* GetPlayer() const;
 		int GetInvadersRemaining() const;
 		static void MoveInvadersDown(float _fDeltaTick);
+		void SetMouseCoords(int _iX, int _iY);
+		bool IsBulletExist();
+		bool CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
+
 
 	protected:
 		void ProcessInvaderBulletCollision();
 		void UpdateScoreText();
-		void CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
@@ -58,6 +62,7 @@ class CLevel
 
 	// Member Variables
 	public:
+		CBullet* m_pPlayerBullet;
 	protected:
 		CPlayer* m_pPlayer;
 		static std::vector<CInvader*> m_vecInvaders;
@@ -66,6 +71,8 @@ class CLevel
 		int m_iInvadersRemaining;
 		std::wstring m_strScore;
 		int m_iBulletSpeed;
+		int m_fMouseX;
+		int m_fMouseY;
 
 	private:
 };

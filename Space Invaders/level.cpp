@@ -4,6 +4,7 @@
 // Local Includes
 #include "Game.h"
 #include "player.h"
+#include "Bullet.h"
 #include "invader.h"
 //#include "Ball.h"
 #include "utils.h"
@@ -36,8 +37,6 @@ CLevel::~CLevel()
 	}
 	delete m_pPlayer;
 	m_pPlayer = 0;
-	//delete m_pBall;
-	//m_pBall = 0;
 }
 
 bool CLevel::Initialise(int _iWidth, int _iHeight)
@@ -45,9 +44,8 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 	m_fTimeElapsed = 5;
-	//	m_pBall = new CBall();
-//	VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));
 	m_pPlayer = new CPlayer();
+	m_pPlayerBullet = nullptr;
 	VALIDATE(m_pPlayer->Initialise());
 
 	// Set the paddle's position to be centered on the x,
@@ -90,7 +88,11 @@ void CLevel::Draw()
 		m_vecInvaders[i]->Draw();
 	}
 	m_pPlayer->Draw();
-	//m_pBall->Draw();
+	
+	if( m_pPlayerBullet != nullptr )
+	{
+		m_pPlayerBullet->Draw();
+	}
 	DrawScore();
 }
 
@@ -120,10 +122,13 @@ void CLevel::Process(float _fDeltaTick)
 		};
 
 	}
-
-
+	if( m_pPlayerBullet != nullptr )
+	{
+			m_pPlayerBullet->Process( _fDeltaTick );
+	}
+	// Update player position & process
+	m_pPlayer->SetX( m_fMouseX );
 	m_pPlayer->Process(_fDeltaTick);
-//	m_pBall->Process(_fDeltaTick);
 }
 
 CPlayer* CLevel::GetPlayer() const
@@ -229,9 +234,21 @@ void CLevel::MoveInvadersDown(float _fDeltaTick)
 	}
 }
 
-void CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
+/***********************
+
+ * CreateBullet: Create a new bullet
+ * @author: 
+ * @parameter:  bool _bDirection, direction of bullet
+ *				int _x, x position
+ *				int _y, y position
+
+ ********************/
+bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
 {
-	
+	m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
+	OutputDebugString( L"Totes workded " );
+	VALIDATE( m_pPlayerBullet->Initialise() );
+	m_pPlayerBullet->Draw();
 }
 
 void CLevel::DrawScore()
@@ -248,4 +265,31 @@ void CLevel::UpdateScoreText()
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	m_strScore = L"Bricks Remaining: ";
 	m_strScore += converter.from_bytes(ToString(GetInvadersRemaining()));
+}
+
+/***********************
+
+ * SetMouseCoords: Set the x & y pos of the mouse
+ * @author: 
+ * @parameter: int _x, x position
+ *				int _y, y position
+
+ ********************/
+void CLevel::SetMouseCoords(int _iX, int _iY)
+{
+	// Set as member variables
+	m_fMouseX = _iX;
+	m_fMouseY = _iY;
+}
+
+/***********************
+
+ * IsMouseDraggingCards: Check if the mouse is dragging cards
+ * @author: 
+ * @return: bool
+
+ ********************/
+bool IsBulletExist()
+{
+	return( false );
 }

@@ -3,6 +3,7 @@
 #include <windowsx.h>
 //Local Includes
 #include "Game.h"
+#include "level.h"
 #include "Clock.h"
 #include "utils.h"
 #define WINDOW_CLASS_NAME L"Space Invaders"
@@ -16,6 +17,28 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 		{
 			PostQuitMessage(0);
 			return(0);
+		}
+		break;
+
+		// When user moves mouse
+		case WM_MOUSEMOVE:
+		{
+			// Get instance, set x y pos
+			CGame::GetInstance().SetMouseCoords( LOWORD( _lParam ), HIWORD( _lParam ) );
+		}
+		break;
+
+		// When user clicks left mouse button
+		case WM_LBUTTONDOWN:
+		{
+			// Check if user bullet exists
+				// Get mouse coords
+				// Set mouse coords
+				int _iMouseX = LOWORD( _lParam ); 
+				int _iMouseY = HIWORD( _lParam );
+				CGame::GetInstance().SetMouseCoords( _iMouseX, _iMouseY );
+				// Create new bullet
+				CGame::GetInstance().GetLevel()->CreateBullet( 1, _iMouseX, 400 );
 		}
 		break;
 

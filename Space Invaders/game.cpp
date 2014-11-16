@@ -97,3 +97,29 @@ HWND CGame::GetWindow()
 {
 	return (m_hMainWindow);
 }
+
+/***********************
+
+ * SetMouseCoords: Set mouse coordinates for game
+ * @author: 
+ * @parameters: int _x, x pos
+ *				int _y, y pos
+
+ ********************/
+void CGame::SetMouseCoords(int _iX, int _iY)
+{
+	// Call level set mouse using xy
+	m_pLevel->SetMouseCoords( _iX,_iY );
+}
+
+/***********************
+
+ * GetLevel: Get level for game
+ * @author: 
+ * @return: CLevel*
+
+ ********************/
+CLevel* CGame::GetLevel()
+{
+	return( m_pLevel );
+}
