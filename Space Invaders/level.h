@@ -44,7 +44,6 @@ class CLevel
 		int GetInvadersRemaining() const;
 		static void MoveInvadersDown(float _fDeltaTick);
 		void SetMouseCoords(int _iX, int _iY);
-		bool IsBulletExist();
 		bool CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 
 
@@ -54,6 +53,7 @@ class CLevel
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
+		bool CheckPlayerBulletCollision();
 
 	private:
 		float m_fTimeElapsed;

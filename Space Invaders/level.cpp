@@ -142,6 +142,7 @@ void CLevel::Process(float _fDeltaTick)
 	{
 		// Process bullet
 		m_pPlayerBullet->Process( _fDeltaTick );
+		CheckPlayerBulletCollision();
 	}
 
 	// Update player position & process
@@ -212,7 +213,7 @@ bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_
 	// Create mew bullet object using input
 	m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
 	// Debug string
-	OutputDebugString( L"Totes workded " );
+	//OutputDebugString( L"Totes workded " );
 	// Validate initialisation
 	VALIDATE( m_pPlayerBullet->Initialise() );
 	// Draw the new bullet
@@ -252,12 +253,45 @@ void CLevel::SetMouseCoords(int _iX, int _iY)
 
 /***********************
 
- * IsMouseDraggingCards: Check if the mouse is dragging cards
+ * SetMouseCoords: Set the x & y pos of the mouse
  * @author: 
- * @return: bool
+ * @parameter: int _x, x position
+ *				int _y, y position
 
  ********************/
-bool IsBulletExist()
+bool CLevel::CheckPlayerBulletCollision()
 {
-	return( false );
+	int iBulletX = m_pPlayerBullet->GetX();
+	int iBulletY = m_pPlayerBullet->GetY();
+	int iInvaderX;
+	int iInvaderY;
+	int iInvaderW;
+	int iInvaderH;
+
+	// For each invader
+	// TODO: why does this need to be unsigned?
+	for( unsigned int i = 0; i < m_vecInvaders.size(); ++i )
+	{
+		iInvaderX = m_vecInvaders[ i ]->GetX();
+		iInvaderY = m_vecInvaders[ i ]->GetY();
+		iInvaderW = m_vecInvaders[ i ]->GetWidth();
+		iInvaderH = m_vecInvaders[ i ]->GetHeight();
+
+		// Check if bullet collides
+		// TODO: Fix, never fires for some reason
+		if( ( iBulletX >= iInvaderX ) && 
+			( iBulletX <= iInvaderX + iInvaderW ) &&
+			( iBulletY >= iInvaderY ) &&
+			( iBulletY <= iInvaderY + iInvaderH ) 
+		  )
+		{
+			// TODO: this
+			OutputDebugString( L"Totes workded " );
+			return( true );
+		}
+		else
+		{
+			return( false );
+		}
+	}
 }

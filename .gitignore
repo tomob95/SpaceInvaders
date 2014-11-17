@@ -3,3 +3,5 @@ Debug/
 Space Invaders/Debug
 ipch/
 Release/
+*.obj
+*.tlog
