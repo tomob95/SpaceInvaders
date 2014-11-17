@@ -68,6 +68,8 @@ bool CBullet::Initialise()
 	// TODO: need sprite
 	// Validate and initialise entity
 	VALIDATE(CEntity::Initialise( IDB_PLAYER ));
+	// Update sprite position
+	UpdateSpritePos();
 
 	return (true);
 }
@@ -137,6 +139,7 @@ void CBullet::Process(float _fDeltaTick)
 			m_fY = m_fY - kiBulletSpeed;
 		}
 		// Process entity
+		UpdateSpritePos();
 		CEntity::Process(_fDeltaTick);
 		Draw();
 	}
@@ -177,4 +180,16 @@ void CBullet::SetHit(bool _b)
 bool CBullet::IsHit() const
 {
 	return( m_bHit );
+}
+
+/***********************
+
+ * UpdateSpritePos: Update the sprites xy position to match objects
+ * @author:
+
+ ********************/
+void CBullet::UpdateSpritePos()
+{
+	CEntity::SetX( m_fX );
+	CEntity::SetY( m_fY );
 }

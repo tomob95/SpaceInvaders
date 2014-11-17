@@ -1,3 +1,17 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: level.cpp
+// Description	: Implementation file for level class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 // Library Includes
 #include <locale>
 #include <codecvt>
@@ -17,13 +31,12 @@ std::vector<CInvader*> CLevel::m_vecInvaders;
 // Static Function Prototypes
 
 // Implementation
-
+// TODO: rename this?
 #define CHEAT_BOUNCE_ON_BACK_WALL
 
 CLevel::CLevel()
 : m_iInvadersRemaining(0)
 , m_pPlayer(0)
-//, m_pBall(0)
 , m_iWidth(0)
 , m_iHeight(0){}
 
@@ -53,7 +66,7 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	//m_pPlayer->SetX(_iWidth / 2.0f);
 	//m_pPlayer->SetY(_iHeight - ( 4 * m_pPlayer->GetHeight()));
 	m_pPlayer->SetX((_iWidth/2) - (m_pPlayer->GetWidth()/2));
-	m_pPlayer->SetY(400);
+	m_pPlayer->SetY( kiYPos );
 
 	const int kiNumInvaders = 55;
 	const int kiStartX = 20;
@@ -98,23 +111,25 @@ void CLevel::Draw()
 
 void CLevel::Process(float _fDeltaTick)
 {
-//	ProcessBallWallCollision();
-//	ProcessBallPaddleCollision();
-//	ProcessBallBrickCollision();
-//	ProcessCheckForWin();
-//	ProcessBallBounds();
-
+	// Set time elapsed to current + delta tick
 	m_fTimeElapsed += _fDeltaTick;
+
+	// If it has been more than one tick since start of game
 	if (m_fTimeElapsed > 1)
 	{
+		// Set time elapsed to 0
 		m_fTimeElapsed = 0;
+
+		// If invader collides with wall
 		if(ProcessInvaderWallCollision(_fDeltaTick))
 		{
+			// Change direction and move down
 			CInvader::SwapDirection();
 			MoveInvadersDown(_fDeltaTick);		
 		}
 		else
 		{
+			// Else move sideways
 			for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 			{
 				m_vecInvaders[i]->Process(_fDeltaTick);
@@ -122,10 +137,13 @@ void CLevel::Process(float _fDeltaTick)
 		};
 
 	}
+	// If the bullet is not null
 	if( m_pPlayerBullet != nullptr )
 	{
-			m_pPlayerBullet->Process( _fDeltaTick );
+		// Process bullet
+		m_pPlayerBullet->Process( _fDeltaTick );
 	}
+
 	// Update player position & process
 	m_pPlayer->SetX( m_fMouseX );
 	m_pPlayer->Process(_fDeltaTick);
@@ -155,65 +173,11 @@ void CLevel::ProcessInvaderBulletCollision()
 	{
 		if (!m_vecInvaders[i]->IsHit())
 		{
-			/*float fBallR = m_pBall->GetRadius();
-			float fBallX = m_pBall->GetX();
-			float fBallY = m_pBall->GetY();
-			float fBrickX = m_vecBricks[i]->GetX();
-			float fBrickY = m_vecBricks[i]->GetY();
-			float fBrickH = m_vecBricks[i]->GetHeight();
-			float fBrickW = m_vecBricks[i]->GetWidth();
-
-			if ((fBallX + fBallR > fBrickX - fBrickW / 2) &&
-			(fBallX - fBallR < fBrickX + fBrickW / 2) &&
-			(fBallY + fBallR > fBrickY - fBrickH / 2) &&
-			(fBallY - fBallR < fBrickY + fBrickH / 2))
-			{
-				//Hit the front side of the brick...
-				m_pBall->SetY((fBrickY + fBrickH / 2.0f) + fBallR);
-				m_pBall->SetVelocityY(m_pBall->GetVelocityY() * -1);
-				m_vecBricks[i]->SetHit(true);
-				SetBricksRemaining(GetBricksRemaining() - 1);
-			}*/
+			// TODO: this
 		}
 	}
 }
-/*
-void CLevel::ProcessCheckForWin()
-{
-	for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
-	{
-		if (!m_vecBricks[i]->IsHit())
-		{
-			return;
-		}
-	}
-	CGame::GetInstance().GameOverWon();
-}
 
-void CLevel::ProcessBallBounds()
-{
-	if (m_pBall->GetX() < 0)
-	{
-		m_pBall->SetX(0);
-	}
-
-	else if (m_pBall->GetX() > m_iWidth)
-	{
-		m_pBall->SetX(static_cast<float>(m_iWidth));
-	}
-
-	if (m_pBall->GetY() < 0)
-	{
-		m_pBall->SetY(0.0f);
-	}
-
-	else if (m_pBall->GetY() > m_iHeight)
-	{
-		CGame::GetInstance().GameOverLost();
-	//m_pBall->SetY(m_iHeight);
-	}
-}
-*/
 int CLevel::GetInvadersRemaining() const
 {
 	return (m_iInvadersRemaining);
@@ -245,9 +209,13 @@ void CLevel::MoveInvadersDown(float _fDeltaTick)
  ********************/
 bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
 {
+	// Create mew bullet object using input
 	m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
+	// Debug string
 	OutputDebugString( L"Totes workded " );
+	// Validate initialisation
 	VALIDATE( m_pPlayerBullet->Initialise() );
+	// Draw the new bullet
 	m_pPlayerBullet->Draw();
 }
 

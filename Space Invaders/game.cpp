@@ -1,9 +1,23 @@
-// Library Includes
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: game.cpp
+// Description	: Implementation file for game class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 // Local Includes
 #include "Clock.h"
 #include "BackBuffer.h"
 #include "utils.h"
 #include "Level.h"
+
 // This Include
 #include "Game.h"
 // Static Variables

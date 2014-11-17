@@ -1,11 +1,27 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: main.cpp
+// Description	: Implementation file for main class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
+
 //Local Includes
 #include "Game.h"
 #include "level.h"
 #include "Clock.h"
 #include "utils.h"
+
 #define WINDOW_CLASS_NAME L"Space Invaders"
 
 
@@ -38,7 +54,7 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 				int _iMouseY = HIWORD( _lParam );
 				CGame::GetInstance().SetMouseCoords( _iMouseX, _iMouseY );
 				// Create new bullet
-				CGame::GetInstance().GetLevel()->CreateBullet( 1, _iMouseX, 400 );
+				CGame::GetInstance().GetLevel()->CreateBullet( 0, _iMouseX, kiYPos );
 		}
 		break;
 
@@ -118,5 +134,6 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 		}
 	}
 	CGame::DestroyInstance();
+
 	return (static_cast<int>(msg.wParam));
 }

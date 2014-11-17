@@ -35,6 +35,7 @@ class CBullet :
 		bool IsHit() const;
 		bool GetDirection();
 		void SetDirection(bool _bDirection);
+		void UpdateSpritePos();
 
 	protected:
 	private:

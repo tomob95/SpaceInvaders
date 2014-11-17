@@ -35,5 +35,6 @@ std::string ToString(const T& _value)
 }
 
 const int kiBulletSpeed = 5;
+const int kiYPos = 740;
 
 #endif // __UTILS_H__
