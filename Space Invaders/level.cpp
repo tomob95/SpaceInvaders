@@ -141,8 +141,23 @@ void CLevel::Process(float _fDeltaTick)
 	if( m_pPlayerBullet != nullptr )
 	{
 		// Process bullet
-		m_pPlayerBullet->Process( _fDeltaTick );
-		CheckPlayerBulletCollision();
+		
+		// If the bullet is off the screen
+		if (m_pPlayerBullet->GetY() < 0)
+		{
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
+		}
+		else if (m_pPlayerBullet->GetY() > m_iHeight)
+		{
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;		
+		}
+		else
+		{
+			m_pPlayerBullet->Process( _fDeltaTick );
+			CheckPlayerBulletCollision();			
+		};
 	}
 
 	// Update player position & process
@@ -210,14 +225,19 @@ void CLevel::MoveInvadersDown(float _fDeltaTick)
  ********************/
 bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
 {
-	// Create mew bullet object using input
-	m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
-	// Debug string
-	//OutputDebugString( L"Totes workded " );
-	// Validate initialisation
-	VALIDATE( m_pPlayerBullet->Initialise() );
-	// Draw the new bullet
-	m_pPlayerBullet->Draw();
+	if(m_pPlayerBullet == nullptr)
+	{
+		// Create mew bullet object using input
+		m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
+		// Debug string
+		//OutputDebugString( L"Totes workded " );
+		// Validate initialisation
+		VALIDATE( m_pPlayerBullet->Initialise() );
+		// Draw the new bullet
+		m_pPlayerBullet->Draw();
+		return true;
+	}
+	return false;
 }
 
 void CLevel::DrawScore()
@@ -263,6 +283,7 @@ bool CLevel::CheckPlayerBulletCollision()
 {
 	int iBulletX = m_pPlayerBullet->GetX();
 	int iBulletY = m_pPlayerBullet->GetY();
+	int iBulletW = m_pPlayerBullet->GetWidth();
 	int iInvaderX;
 	int iInvaderY;
 	int iInvaderW;
@@ -270,6 +291,8 @@ bool CLevel::CheckPlayerBulletCollision()
 
 	// For each invader
 	// TODO: why does this need to be unsigned?
+	// ANSWER .size returns an unsigned int (a vector can't be negative size)
+	// Just has conversion warnings when it is a normal int
 	for( unsigned int i = 0; i < m_vecInvaders.size(); ++i )
 	{
 		iInvaderX = m_vecInvaders[ i ]->GetX();
@@ -279,19 +302,21 @@ bool CLevel::CheckPlayerBulletCollision()
 
 		// Check if bullet collides
 		// TODO: Fix, never fires for some reason
-		if( ( iBulletX >= iInvaderX ) && 
+
+		// NOTE: This does fire, but it only calls true for the first invader in the vector
+		if( (( iBulletX >= iInvaderX ) || ( iBulletX + iBulletW >= iInvaderX )) && 
 			( iBulletX <= iInvaderX + iInvaderW ) &&
 			( iBulletY >= iInvaderY ) &&
 			( iBulletY <= iInvaderY + iInvaderH ) 
 		  )
 		{
 			// TODO: this
-			OutputDebugString( L"Totes workded " );
+			OutputDebugString( L"Totes workded \n" );
+			m_vecInvaders.erase(m_vecInvaders.begin()+i,m_vecInvaders.begin()+i+1);
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
 			return( true );
 		}
-		else
-		{
-			return( false );
-		}
 	}
+	return( false );
 }

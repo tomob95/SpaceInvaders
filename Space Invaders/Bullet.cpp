@@ -19,6 +19,7 @@
 #include "resource.h"
 #include "utils.h"
 #include "level.h"
+#include "game.h"
 
 // This Include
 #include "bullet.h"
