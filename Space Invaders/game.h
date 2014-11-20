@@ -47,6 +47,7 @@ public:
 	HWND GetWindow();
 	void SetMouseCoords(int _iX, int _iY);
 	void GameOver();
+	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed );
 
 	// Singleton Methods
 	static CGame& GetInstance();

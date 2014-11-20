@@ -60,6 +60,7 @@ bool CInvader::Initialise()
 {
 	// Validate and initialise entity
 	VALIDATE(CEntity::Initialise(IDB_INVADER));
+	m_iSpeed = 1;
 	return (true);
 }
 
@@ -119,12 +120,12 @@ void CInvader::Process(float _fDeltaTick)
 		if (m_bDirection)
 		{
 			// Go right
-			SetX(GetX() + 1);
+			SetX(GetX() + m_iSpeed);
 		}
 		else
 		{
 			// Go left
-			SetX(GetX() - 1);
+			SetX(GetX() - m_iSpeed);
 		}
 		// Process the entity
 		CEntity::Process(_fDeltaTick);

@@ -877,9 +877,17 @@ bool CLevel::CheckPlayerBulletCollision()
 	return( false );
 }
 
+/***********************
+
+ * CreateSpecialInvader: Create special ship
+ * @author: 
+ * @parameter: int _x, x position
+ *				int _y, y position
+
+ ********************/
 bool CLevel::CreateSpecialInvader()
 {
-	// If the bullet does not already exist
+	// If the special does not already exist
 	if(m_pSpecialInvader == nullptr)
 	{
 		// Create mew special object using input
@@ -895,7 +903,6 @@ bool CLevel::CreateSpecialInvader()
 	// Otherwise no specail for you
 	return false;
 }
-
 
 /***********************
 
@@ -954,4 +961,33 @@ void CLevel::ResetInvaders()
 		m_vecInvaders.push_back(pInvader);
 	}
 
+}
+
+/***********************
+
+ * SetBulletSpeed: Set the bullet speed
+ * @author: 
+ * @parameter: int _iSpeed, speed to set
+
+ ********************/
+void CLevel::SetBulletSpeed( int _iSpeed )
+{
+	m_iBulletSpeed = _iSpeed;
+}
+
+/***********************
+
+ * SetInvaderSpeed: Set the invader speed
+ * @author: 
+ * @parameter: int _iSpeed, speed to set
+
+ ********************/
+void CLevel::SetInvaderSpeed( int _iSpeed )
+{
+	// For each invader
+	for( unsigned int i = 0; i < m_vecInvaders.size(); ++i )
+	{
+		// Set speed
+		m_vecInvaders[ i ]->m_iSpeed = _iSpeed;
+	}
 }

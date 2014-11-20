@@ -45,6 +45,7 @@ class CInvader :
 
 	// Member Variables
 	public:
+		int m_iSpeed;
 	protected:
 		bool m_bHit;
 

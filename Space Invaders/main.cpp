@@ -23,8 +23,101 @@
 #include "level.h"
 #include "Clock.h"
 #include "utils.h"
+#include "resource.h"
 
 #define WINDOW_CLASS_NAME L"Space Invaders"
+
+// Global variables
+HINSTANCE g_hInstance;
+
+/***********************
+
+ * SettingsDlgProc: Function for the Dialog Box
+ * @author: Kelsey Scheurich
+ * @parameter: HWND - dialog handler
+ *			   UINT - message
+ *			   WPARAM - wparam
+ *			   LPARAM - lapram
+ * @return: BOOL
+
+ ********************/
+BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
+								UINT _msg,
+								WPARAM _wparam,
+								LPARAM _lparam )
+{
+	// Switch the message from the dialog box
+	switch( _msg )
+	{
+		// Initialisation
+	case WM_INITDIALOG:
+		{
+			// Initialise input text boxes
+			SetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
+			SetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
+			return( true );
+		}
+		break;
+
+		// If user clicks close
+	case WM_CLOSE:
+		{
+			EndDialog( _hDlg, 1 );
+			return( true );
+		}
+		break;
+
+		// When a command is sent from the dialog box
+	case WM_COMMAND:
+		{
+			// Switch on the word parameter, use loword to get last 16 bits ( instruction )
+			switch( LOWORD( _wparam ) )
+			{
+			case IDOK:
+				{ 
+					// Get invader speed & bullet speed
+					int iInvaderSpeed = GetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
+					int iBulletSpeed = GetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
+
+					// Validate input
+					if( iInvaderSpeed > 0 && iBulletSpeed > 0 )
+					{
+						// If valid, process into game
+						CGame::GetInstance().SetDlgProperties( iInvaderSpeed, iBulletSpeed );
+					}
+					else
+					{
+						// Else invalid, show message box
+						MessageBox( _hDlg, L"Please enter a number greater than 0!", L"Invalid input", 0 );
+						return( true );
+					}
+
+					// End dialog box
+					EndDialog( _hDlg, 1 );
+					return( true );
+				}
+				break;
+
+			case IDCANCEL:
+				{
+					EndDialog( _hDlg, 1 );
+					return( true );
+				}
+				break;
+
+				default: break;
+
+			} // End switch
+		}
+		break;
+
+	default: break;
+
+	} // End switch
+
+	return( false );
+
+}
 
 /***********************
 
@@ -47,6 +140,29 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 		{
 			PostQuitMessage(0);
 			return(0);
+		}
+		break;
+
+		case WM_KEYDOWN:
+		{
+			switch(_wParam)
+			{
+			case VK_ESCAPE:
+				{
+					PostQuitMessage(0);
+				}
+			case VK_F2:
+				{
+					//CGame::GetInstance().RestartGame();
+				}
+				break;
+			case VK_F1:
+				{
+					DialogBox( g_hInstance, MAKEINTRESOURCE( IDD_SETTINGS_DLG ), _hWnd, SettingsDialogProc );
+					//CreateDialog( g_hInstance, MAKEINTRESOURCE( IDD_SETTINGS_DLG ), _hWnd, SettingsDialogProc )
+				}
+				break;
+			}
 		}
 		break;
 
@@ -153,6 +269,8 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 	srand(time(NULL));
+
+	g_hInstance = _hInstance;
 
 	// Initialise width & height
 	const int kiWidth = 835;
