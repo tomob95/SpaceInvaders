@@ -231,3 +231,17 @@ CLevel* CGame::GetLevel()
 {
 	return( m_pLevel );
 }
+
+/***********************
+
+ * SetDlgProperties: Set the dialog values
+ * @author: 
+ * @parameters: int _iInvSpeed, speed of invaders
+ *				int _iBulletSpeed, speed of bullet
+
+ ********************/
+void CGame::SetDlgProperties( int _iInvSpeed, int _iBulletSpeed )
+{
+	m_pLevel->SetBulletSpeed( _iBulletSpeed );
+	m_pLevel->SetInvaderSpeed( _iInvSpeed );
+}

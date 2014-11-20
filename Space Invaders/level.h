@@ -48,6 +48,8 @@ class CLevel
 		void SetMouseCoords(int _iX, int _iY);
 		bool CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 		bool CreateSpecialInvader();
+		void SetBulletSpeed( int _iSpeed );
+		void SetInvaderSpeed( int _iSpeed );
 
 
 	protected:
@@ -81,6 +83,7 @@ class CLevel
 		int m_iInvadersRemaining;
 		std::wstring m_strScore;
 		int m_iBulletSpeed;
+		int m_iInvaderSpeed;
 		int m_fMouseX;
 		int m_fMouseY;
 		CSPInvader* m_pSpecialInvader;
