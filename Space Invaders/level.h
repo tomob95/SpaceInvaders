@@ -80,6 +80,7 @@ class CLevel
 		int m_iBulletSpeed;
 		int m_fMouseX;
 		int m_fMouseY;
+		CInvader* m_pSpecialInvader;
 
 	private:
 };

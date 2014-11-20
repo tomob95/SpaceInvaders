@@ -81,7 +81,11 @@ CLevel::~CLevel()
 		// Clean up pointer
 		delete pInvader;
 	}
-	// Clean up memeber variable
+
+	// Clean up memeber variables
+	delete m_pSpecialInvader;
+	m_pSpecialInvader = 0;
+	
 	delete m_pPlayer;
 	m_pPlayer = 0;
 }
@@ -511,9 +515,11 @@ void CLevel::SetMouseCoords(int _iX, int _iY)
  ********************/
 bool CLevel::CheckPlayerBulletCollision()
 {
+	// Get x, y, width, height
 	int iBulletX = m_pPlayerBullet->GetX();
 	int iBulletY = m_pPlayerBullet->GetY();
 	int iBulletW = m_pPlayerBullet->GetWidth();
+	// initialise x, y 
 	int iInvaderX;
 	int iInvaderY;
 	int iInvaderW;
