@@ -17,13 +17,14 @@
 #include "sprite.h"
 #include "utils.h"
 #include "resource.h"
+#include "game.h"
 
 // Static variables
-CSprite* CBarrier::m_hSprite1;
-CSprite* CBarrier::m_hSprite2;
-CSprite* CBarrier::m_hSprite3;
-CSprite* CBarrier::m_hSprite4;
-CSprite* CBarrier::m_hSprite5;
+HBITMAP CBarrier::s_hSprite1 = nullptr;
+HBITMAP CBarrier::s_hSprite2 = nullptr;
+HBITMAP CBarrier::s_hSprite3 = nullptr;
+HBITMAP CBarrier::s_hSprite4 = nullptr;
+HBITMAP CBarrier::s_hSprite5 = nullptr;
 
 
 CBarrier::CBarrier(void)
@@ -37,27 +38,29 @@ CBarrier::~CBarrier(void)
 
 bool CBarrier::Initialise()
 {
-	if(m_hSprite1 == nullptr)
+	HINSTANCE hInstance = CGame::GetInstance().GetAppInstance();
+	if(s_hSprite1 == nullptr)
 	{
 		//No barrier has been initialised before
-		m_hSprite1 = new CSprite();
-		VALIDATE(m_hSprite1->Initialise(IDB_BARRIER1));
+		s_hSprite1 = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_BARRIER1));
+		VALIDATE(s_hSprite1);
+		
+		s_hSprite2 = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_BARRIER2));
+		VALIDATE(s_hSprite2);
 
-		m_hSprite2 = new CSprite();
-		VALIDATE(m_hSprite2->Initialise(IDB_BARRIER2));
+		s_hSprite3 = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_BARRIER3));
+		VALIDATE(s_hSprite3);
 
-		m_hSprite3 = new CSprite();
-		VALIDATE(m_hSprite3->Initialise(IDB_BARRIER3));
+		s_hSprite4 = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_BARRIER4));
+		VALIDATE(s_hSprite4);
 
-		m_hSprite4 = new CSprite();
-		VALIDATE(m_hSprite4->Initialise(IDB_BARRIER4));
-
-		m_hSprite5 = new CSprite();
-		VALIDATE(m_hSprite5->Initialise(IDB_BARRIER5));
+		s_hSprite5 = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_BARRIER5));
+		VALIDATE(s_hSprite5);
 	}
 
 	m_iHealth = 4;
-	m_pSprite = m_hSprite5;
+	m_pSprite = new CSprite();
+	m_pSprite->ReplaceSprite(s_hSprite5);
 	return 1;
 }
 
@@ -73,25 +76,40 @@ void CBarrier::Process()
 	case 4:
 		{
 			//Barrier is full health
-			m_pSprite = m_hSprite5;
+			m_pSprite->ReplaceSprite(s_hSprite5);
+			return;
 		}
+		break;
 	case 3:
 		{
-			m_pSprite = m_hSprite4;
+			m_pSprite->ReplaceSprite(s_hSprite4);
+			return;
 		}
+		break;
 	case 2:
 		{
-			m_pSprite = m_hSprite3;
+			m_pSprite->ReplaceSprite(s_hSprite3);
+			return;
 		}
+		break;
 	case 1:
 		{
-			m_pSprite = m_hSprite2;
+			m_pSprite->ReplaceSprite(s_hSprite2);
+			return;
 		}
+		break;
 	case 0:
 		{
 			//Barrier is dead
-			m_pSprite = m_hSprite5;
+			m_pSprite->ReplaceSprite(s_hSprite1);
+			return;
 		}
+		break;
+	default:
+		{
+			return;
+		}
+		break;
 	}
 }
 

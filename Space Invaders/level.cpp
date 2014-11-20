@@ -144,13 +144,22 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	}
 
 	// Set the barrier x & y
-	int _iBarrier1X = 50;
-	int _iBarrier1Y = 250;
+	int _iBarrier1X = 150;
+	int _iBarrier1Y = 650;
 
-	//Initialise the barriers
+	int _iBarrier2X = 350;
+	int _iBarrier2Y = 650;
+
+	int _iBarrier3X = 550;
+	int _iBarrier3Y = 650;
+
+	/**************************
+	*  Initialise the barriers *
+	***************************/
+	//Barrier 1
 	for(int i=0; i<3; i++)
 	{
-		for(int j=0; j<3; j++)
+		for(int j=0; j<8; j++)
 		{
 			// Create, validate and initialise
 			CBarrier* pBarrier = new CBarrier();
@@ -161,6 +170,40 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 
 			// Push to vector
 			m_vecBarrier1.push_back(pBarrier);
+		}
+	}
+
+	//Barrier 2
+	for(int i=0; i<3; i++)
+	{
+		for(int j=0; j<8; j++)
+		{
+			// Create, validate and initialise
+			CBarrier* pBarrier = new CBarrier();
+			VALIDATE(pBarrier->Initialise());
+			// Set x & y
+			pBarrier->SetX(_iBarrier2X + 10*j);
+			pBarrier->SetY(_iBarrier2Y + 10*i);
+
+			// Push to vector
+			m_vecBarrier2.push_back(pBarrier);
+		}
+	}
+
+	//Barrier 3
+	for(int i=0; i<3; i++)
+	{
+		for(int j=0; j<8; j++)
+		{
+			// Create, validate and initialise
+			CBarrier* pBarrier = new CBarrier();
+			VALIDATE(pBarrier->Initialise());
+			// Set x & y
+			pBarrier->SetX(_iBarrier3X + 10*j);
+			pBarrier->SetY(_iBarrier3Y + 10*i);
+
+			// Push to vector
+			m_vecBarrier3.push_back(pBarrier);
 		}
 	}
 
@@ -186,10 +229,23 @@ void CLevel::Draw()
 	// Draw player
 	m_pPlayer->Draw();
 	
-	// Draw each barrier
+	/*****************
+	* Draw Barriers  *
+	******************/
+	//Barrier 1
 	for (unsigned int i = 0; i < m_vecBarrier1.size(); ++i)
 	{
 		m_vecBarrier1[i]->Draw();
+	}
+	//Barrier 2
+	for (unsigned int i = 0; i < m_vecBarrier1.size(); ++i)
+	{
+		m_vecBarrier2[i]->Draw();
+	}
+	//Barrier 3
+	for (unsigned int i = 0; i < m_vecBarrier1.size(); ++i)
+	{
+		m_vecBarrier3[i]->Draw();
 	}
 
 	// If the bullet exists
@@ -242,30 +298,29 @@ void CLevel::Process(float _fDeltaTick)
 		};
 	}
 
-	// If it has been more than one tick since start of game
-	if (m_fTimeElapsed > 1)
+	// If invader collides with wall
+	if(ProcessInvaderWallCollision(_fDeltaTick))
 	{
-		// Set time elapsed to 0
-		m_fTimeElapsed = 0;
-
-		// If invader collides with wall
-		if(ProcessInvaderWallCollision(_fDeltaTick))
-		{
-			// Change direction and move down
-			CInvader::SwapDirection();
-			MoveInvadersDown(_fDeltaTick);		
-		}
-		else
-		{
-			// Else move sideways
-			for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
-			{
-				m_vecInvaders[i]->Process(_fDeltaTick);
-			}	
-		};
-
+		// Change direction and move down
+		CInvader::SwapDirection();
+		MoveInvadersDown(_fDeltaTick);		
 	}
+	else
+	{
+		// Else move sideways
+		for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
+		{
+			m_vecInvaders[i]->Process(_fDeltaTick);
+		}	
+	};
 
+	//Process each barrier
+	for(unsigned int i=0; i<m_vecBarrier1.size(); i++)
+	{
+		m_vecBarrier1[i]->Process();
+		m_vecBarrier2[i]->Process();
+		m_vecBarrier3[i]->Process();
+	}
 
 	// Update player position & process
 	m_pPlayer->SetX( m_fMouseX );
@@ -463,6 +518,9 @@ bool CLevel::CheckPlayerBulletCollision()
 	int iInvaderY;
 	int iInvaderW;
 	int iInvaderH;
+	int iBarrierX;
+	int iBarrierY;
+	int iBarrierHealth;
 
 	// For each invader
 	for( unsigned int i = 0; i < m_vecInvaders.size(); ++i )
@@ -474,14 +532,83 @@ bool CLevel::CheckPlayerBulletCollision()
 		iInvaderH = m_vecInvaders[ i ]->GetHeight();
 
 		// Check if bullet collides
-		if( ( iBulletX >= iInvaderX ) && 
-			( iBulletX <= iInvaderX + iInvaderW ) &&
+		if( (( iBulletX >= iInvaderX ) || ( iBulletX + 4 >= iInvaderX )) && 
+			(( iBulletX <= iInvaderX + iInvaderW ) || ( iBulletX + 4 <= iInvaderX + iInvaderW )) &&
 			( iBulletY >= iInvaderY ) &&
 			( iBulletY <= iInvaderY + iInvaderH ) 
 		  )
 		{
 			//Bullet has hit the invader. Destroy the invader and the bullet.
 			m_vecInvaders.erase(m_vecInvaders.begin()+i,m_vecInvaders.begin()+i+1);
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
+			return( true );
+		}
+	}
+
+	//Check Barrier 1 for collision
+	for (unsigned int i=0; i < m_vecBarrier1.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier1[i]->GetX();
+		iBarrierY = m_vecBarrier1[i]->GetY();
+		iBarrierHealth = m_vecBarrier1[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+		  )
+		{
+			//Change health and destroy bullet
+			m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
+			return( true );
+		}
+	}
+
+	//Check Barrier 2 for collision
+	for (unsigned int i=0; i < m_vecBarrier2.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier2[i]->GetX();
+		iBarrierY = m_vecBarrier2[i]->GetY();
+		iBarrierHealth = m_vecBarrier2[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+		  )
+		{
+			//Change health and destroy bullet
+			m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
+			return( true );
+		}
+	}
+
+	//Check Barrier 3 for collision
+	for (unsigned int i=0; i < m_vecBarrier3.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier3[i]->GetX();
+		iBarrierY = m_vecBarrier3[i]->GetY();
+		iBarrierHealth = m_vecBarrier3[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+		  )
+		{
+			//Change health and destroy bullet
+			m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
 			delete m_pPlayerBullet;
 			m_pPlayerBullet = nullptr;
 			return( true );

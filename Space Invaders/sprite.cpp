@@ -274,3 +274,16 @@ void CSprite::TranslateAbsolute(int _iX, int _iY)
 	m_iX = _iX;
 	m_iY = _iY;
 }
+
+/***********************
+
+ * ReplaceSprite: Replace the bitmap within a sprite
+ * @author:
+ * @parameter: HBITMAP& _hSprite 
+
+ ********************/
+void CSprite::ReplaceSprite(HBITMAP& _hSprite)
+{
+	m_hSprite = _hSprite;
+	GetObject(m_hSprite, sizeof(BITMAP), &m_bitmapSprite);
+}

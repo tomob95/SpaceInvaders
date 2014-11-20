@@ -119,12 +119,12 @@ void CInvader::Process(float _fDeltaTick)
 		if (m_bDirection)
 		{
 			// Go right
-			SetX(GetX() + 30);
+			SetX(GetX() + 1);
 		}
 		else
 		{
 			// Go left
-			SetX(GetX() - 30);
+			SetX(GetX() - 1);
 		}
 		// Process the entity
 		CEntity::Process(_fDeltaTick);

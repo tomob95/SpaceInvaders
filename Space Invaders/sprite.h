@@ -45,6 +45,7 @@ public:
 	void SetY(int _i);
 	void TranslateRelative(int _iX, int _iY);
 	void TranslateAbsolute(int _iX, int _iY);
+	void ReplaceSprite(HBITMAP &_hSprite);
 
 protected:
 private:

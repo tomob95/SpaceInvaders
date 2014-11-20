@@ -16,6 +16,7 @@
 
 // Local Includes
 #include "entity.h"
+#include <Windows.h>
 
 // Prototypes
 class CBarrier :
@@ -33,11 +34,11 @@ class CBarrier :
 		int GetHealth() const;
 
 	protected:
-		static CSprite* m_hSprite1;
-		static CSprite* m_hSprite2;
-		static CSprite* m_hSprite3;
-		static CSprite* m_hSprite4;
-		static CSprite* m_hSprite5;
+		static HBITMAP s_hSprite1;
+		static HBITMAP s_hSprite2;
+		static HBITMAP s_hSprite3;
+		static HBITMAP s_hSprite4;
+		static HBITMAP s_hSprite5;
 
 	private:
 

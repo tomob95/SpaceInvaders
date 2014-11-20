@@ -80,13 +80,13 @@ bool CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeig
 	// Process clock
 	m_pClock->Process();
 
-	// Create, validate & initialise level
-	m_pLevel = new CLevel();
-	VALIDATE(m_pLevel->Initialise(_iWidth, _iHeight));
-
 	// Create, validate & initialise backbuffer
 	m_pBackBuffer = new CBackBuffer();
 	VALIDATE(m_pBackBuffer->Initialise(_hWnd, _iWidth, _iHeight));
+
+	// Create, validate & initialise level
+	m_pLevel = new CLevel();
+	VALIDATE(m_pLevel->Initialise(_iWidth, _iHeight));
 
 	// Show cursor
 	ShowCursor(true);
@@ -139,7 +139,7 @@ void CGame::ExecuteOneFrame()
 	// Process clock
 	m_pClock->Process();
 	// Sleeps
-	Sleep(1);
+	Sleep(g_iGameSpeed);
 }
 
 /***********************
