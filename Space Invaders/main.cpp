@@ -25,7 +25,7 @@
 #include "utils.h"
 #include "resource.h"
 
-#define WINDOW_CLASS_NAME L"Space Invaders"
+#define WINDOW_CLASS_NAME "Space Invaders"
 
 // Global variables
 HINSTANCE g_hInstance;
@@ -88,7 +88,7 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 					else
 					{
 						// Else invalid, show message box
-						MessageBox( _hDlg, L"Please enter a number greater than 0!", L"Invalid input", 0 );
+						MessageBox( _hDlg, "Please enter a number greater than 0!", "Invalid input", 0 );
 						return( true );
 					}
 
@@ -211,7 +211,7 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
  * @return: HWND
 
  ********************/
-HWND CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, LPCWSTR _pcTitle)
+HWND CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, LPCSTR _pcTitle)
 {
 	// Initialise
 	WNDCLASSEX winclass;
@@ -268,7 +268,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 	// Initialise msg
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	g_hInstance = _hInstance;
 
@@ -277,7 +277,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 	const int kiHeight = 800;
 
 	// Create window
-	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Space Invaders");
+	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, "Space Invaders");
 	// Create game
 	CGame& rGame = CGame::GetInstance();
 

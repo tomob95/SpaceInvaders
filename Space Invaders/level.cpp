@@ -298,6 +298,7 @@ void CLevel::Draw()
 
 	// Draw the score
 	DrawScore();
+	DrawLives();
 }
 
 /***********************
@@ -683,6 +684,28 @@ void CLevel::DrawScore()
 
 /***********************
 
+ * DrawLives: Draw the lives to the screen
+ * @author: 
+
+ ********************/
+void CLevel::DrawLives()
+{
+	// Get HDC
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	// Set x & y
+	const int kiX = m_iWidth - 70;
+	const int kiY = m_iHeight - 50;
+	std::string Caption = "Lives: ";
+	std::string sLives = ToString(m_iLives);
+
+	std::string sOutput = Caption + sLives;
+	// Output text
+	TextOut(hdc, kiX, kiY, sOutput.c_str(), sOutput.size());
+}
+
+/***********************
+
  * UpdateScoreText: Update the text
  * @author: 
 
@@ -690,11 +713,11 @@ void CLevel::DrawScore()
 void CLevel::UpdateScoreText()
 {
 	// Convert to string
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	m_strScore = L"Score: ";
+	m_strScore = "Score: ";
 	// Add to member variable
-	m_strScore += converter.from_bytes(ToString(m_iScore));
+	m_strScore += ToString(m_iScore);
 }
+
 
 /***********************
 

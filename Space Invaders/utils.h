@@ -34,6 +34,14 @@ std::string ToString(const T& _value)
 	return (theStream.str());
 }
 
+template<typename T>
+std::wstring ToWString(const T& _value)
+{
+	std::wostringstream theStream;
+	theStream << _value;
+	return (theStream.str());
+}
+
 const int kiBulletSpeed = 7;
 const int kiYPos = 740;
 static int g_iGameSpeed = 15;

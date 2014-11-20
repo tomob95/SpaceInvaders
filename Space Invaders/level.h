@@ -57,6 +57,7 @@ class CLevel
 		bool ProcessInvaderBulletCollision(CBullet* _pBullet);
 		void UpdateScoreText();
 		void DrawScore();
+		void DrawLives();
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
 		bool ProcessSpecialWallCollision(float _fDeltaTick);
 		bool CheckPlayerBulletCollision();
@@ -82,7 +83,7 @@ class CLevel
 		int m_iWidth;
 		int m_iHeight;
 		int m_iScore;
-		std::wstring m_strScore;
+		std::string m_strScore;
 		int m_iBulletSpeed;
 		int m_iInvaderSpeed;
 		int m_fMouseX;
