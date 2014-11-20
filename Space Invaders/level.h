@@ -48,10 +48,11 @@ class CLevel
 		void SetMouseCoords(int _iX, int _iY);
 		bool CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
 		bool CreateSpecialInvader();
+		void ResetInvaders();
 
 
 	protected:
-		void ProcessInvaderBulletCollision();
+		bool ProcessInvaderBulletCollision(CBullet* _pBullet);
 		void UpdateScoreText();
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
@@ -74,7 +75,8 @@ class CLevel
 		std::vector<CBarrier*> m_vecBarrier1;
 		std::vector<CBarrier*> m_vecBarrier2;
 		std::vector<CBarrier*> m_vecBarrier3;
-		std::vector<CBarrier*> m_vecBarrier4;
+
+		std::vector<CBullet*> m_vecInvaderBullets;
 
 		int m_iWidth;
 		int m_iHeight;
@@ -84,6 +86,7 @@ class CLevel
 		int m_fMouseX;
 		int m_fMouseY;
 		CSPInvader* m_pSpecialInvader;
+		int m_iLives;
 
 	private:
 };

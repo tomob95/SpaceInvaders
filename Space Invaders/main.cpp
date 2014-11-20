@@ -16,6 +16,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <time.h>
+#include "vld.h"
 
 //Local Includes
 #include "Game.h"
@@ -70,6 +71,12 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 				CGame::GetInstance().GetLevel()->CreateBullet( 0, _iMouseX, kiYPos );
 		}
 		break;
+
+		case WM_RBUTTONDOWN:
+			{
+				CGame::GetInstance().GetLevel()->ResetInvaders();
+			}
+			break;
 
 		default:break;
 	}

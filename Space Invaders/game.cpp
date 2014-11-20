@@ -231,3 +231,15 @@ CLevel* CGame::GetLevel()
 {
 	return( m_pLevel );
 }
+
+/***********************
+
+ * GetLevel: Get level for game
+ * @author: 
+ * @return: CLevel*
+
+ ********************/
+void CGame::GameOver()
+{
+	PostQuitMessage(0);
+}

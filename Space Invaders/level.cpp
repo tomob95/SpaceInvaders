@@ -67,12 +67,51 @@ CLevel::~CLevel()
 		delete pInvader;
 	}
 
+	//Delete Barrier 1
+	while (!m_vecBarrier1.empty())
+	{
+		CBarrier* pBarrier = m_vecBarrier1.back();
+		m_vecBarrier1.pop_back();
+		delete pBarrier;
+		pBarrier = nullptr;
+	}
+
+	//Delete Barrier 2
+	while (!m_vecBarrier2.empty())
+	{
+		CBarrier* pBarrier = m_vecBarrier2.back();
+		m_vecBarrier2.pop_back();
+		delete pBarrier;
+		pBarrier = nullptr;
+	}
+
+	//Delete Barrier 3
+	while (!m_vecBarrier3.empty())
+	{
+		CBarrier* pBarrier = m_vecBarrier3.back();
+		m_vecBarrier3.pop_back();
+		delete pBarrier;
+		pBarrier = nullptr;
+	}
+
+	//Delete Invader Bullets
+	while (!m_vecInvaderBullets.empty())
+	{
+		CBullet* pBullet = m_vecInvaderBullets.back();
+		m_vecInvaderBullets.pop_back();
+		delete pBullet;
+		pBullet = nullptr;
+	}
+
 	// Clean up memeber variables
-	//delete m_pSpecialInvader;
-	//m_pSpecialInvader = 0;
+	delete m_pSpecialInvader;
+	m_pSpecialInvader = 0;
 	
 	delete m_pPlayer;
 	m_pPlayer = 0;
+
+	delete m_pPlayerBullet;
+	m_pPlayerBullet = nullptr;
 }
 
 /***********************
@@ -90,6 +129,7 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 	m_fTimeElapsed = 5;
+	m_iLives = 3;
 	m_pPlayer = new CPlayer();
 	m_pPlayerBullet = nullptr;
 	m_pSpecialInvader = nullptr;
@@ -252,6 +292,12 @@ void CLevel::Draw()
 		m_pSpecialInvader->Draw();
 	}
 
+	//Draw Invader Bullets
+	for (unsigned int i = 0; i < m_vecInvaderBullets.size(); i++)
+	{
+		m_vecInvaderBullets[i]->Draw();
+	}
+
 	// Draw the score
 	DrawScore();
 }
@@ -267,6 +313,18 @@ void CLevel::Process(float _fDeltaTick)
 {
 	// Set time elapsed to current + delta tick
 	m_fTimeElapsed += _fDeltaTick;
+	int iRandShoot;
+
+	if(m_iLives <= 0)
+	{
+		CGame::GetInstance().GameOver();
+	}
+
+	if(m_vecInvaders.empty())
+	{
+		ResetInvaders();
+		m_iLives += 1;
+	}
 
 	// If there is not a special
 	if( m_pSpecialInvader == nullptr )
@@ -308,6 +366,31 @@ void CLevel::Process(float _fDeltaTick)
 		};
 	}
 
+
+	//Process Invader Bullets
+
+	for(unsigned int i=0; i<m_vecInvaderBullets.size(); i++)
+	{
+		// If the bullet is off the screen
+		if (m_vecInvaderBullets[i]->GetY() > m_iHeight || m_vecInvaderBullets[i]->IsHit())
+		{
+			// Delete it
+			CBullet* _delBullet = m_vecInvaderBullets[i];
+			m_vecInvaderBullets.erase(m_vecInvaderBullets.begin() + i, m_vecInvaderBullets.begin() + i + 1);
+			delete _delBullet;
+			_delBullet = nullptr;
+		} 
+		else
+		{
+			if(	ProcessInvaderBulletCollision(m_vecInvaderBullets[i]))
+			{
+				m_vecInvaderBullets[i]->SetHit( true );
+			}
+			m_vecInvaderBullets[i]->Process(_fDeltaTick);
+		}
+	}
+
+
 	// If invader collides with wall
 	if(ProcessInvaderWallCollision(_fDeltaTick))
 	{
@@ -317,9 +400,19 @@ void CLevel::Process(float _fDeltaTick)
 	}
 	else
 	{
+		
 		// Else move sideways
 		for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 		{
+			//Detect if Invader should shoot
+			iRandShoot = rand()%2000;
+			if(iRandShoot < g_iInvaderShootRate && m_vecInvaderBullets.size() < g_iMaxInvaderBullets && !m_vecInvaders[i]->IsHit())
+			{
+					CBullet* pBullet = new CBullet(1, m_vecInvaders[i]->GetX(),m_vecInvaders[i]->GetY() + 2);
+					pBullet->Initialise();
+					m_vecInvaderBullets.push_back(pBullet);
+					pBullet = nullptr;
+			};
 			m_vecInvaders[i]->Process(_fDeltaTick);
 		}	
 	};
@@ -406,7 +499,7 @@ bool CLevel::ProcessSpecialWallCollision(float _fDeltaTick)
 	if( m_pSpecialInvader != nullptr )
 	{
 		// If it is within the bounds
-		if (m_pSpecialInvader->GetX() + 30 > m_iWidth - m_pSpecialInvader->GetWidth())
+		if (m_pSpecialInvader->GetX() > m_iWidth - m_pSpecialInvader->GetWidth())
 		{
 			// It collided
 			return 1;
@@ -423,13 +516,104 @@ bool CLevel::ProcessSpecialWallCollision(float _fDeltaTick)
  * @author:
 
  ********************/
-void CLevel::ProcessInvaderBulletCollision()
+bool CLevel::ProcessInvaderBulletCollision(CBullet* _pBullet)
 {
-	// Loop through all the invaders
-	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
+	// Get x, y, width, height
+	int iBulletX = _pBullet->GetX();
+	int iBulletY = _pBullet->GetY();
+	int iBulletW = _pBullet->GetWidth();
+
+	// initialise x, y 
+	int iPlayerX = m_pPlayer->GetX();
+	int iPlayerY = m_pPlayer->GetY();
+	int iPlayerW = m_pPlayer->GetWidth();
+	int iPlayerH = m_pPlayer->GetHeight();
+
+	int iBarrierX;
+	int iBarrierY;
+	int iBarrierHealth;
+
+	// check player for collision
+	
+	// Check if bullet collides with player
+	if( (( iBulletX >= iPlayerX - iPlayerW/2 ) || ( iBulletX + 4 >= iPlayerX - iPlayerW/2 )) && 
+		(( iBulletX <= iPlayerX + iPlayerW/2 ) || ( iBulletX + 4 <= iPlayerX + iPlayerW/2 )) &&
+		( iBulletY >= iPlayerY ) &&
+		( iBulletY <= iPlayerY + iPlayerH )
+		)
 	{
-		//TODO: this
+		//Bullet has hit the Player. Destroy the bullet and remove a life.
+		m_iLives -= 1;
+		return true;
 	}
+	
+
+	//Check Barrier 1 for collision
+	for (unsigned int i=0; i < m_vecBarrier1.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier1[i]->GetX();
+		iBarrierY = m_vecBarrier1[i]->GetY();
+		iBarrierHealth = m_vecBarrier1[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+			)
+		{
+			//Change health and destroy bullet
+			m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
+			return true;
+				
+		}
+	}
+
+	//Check Barrier 2 for collision
+	for (unsigned int i=0; i < m_vecBarrier2.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier2[i]->GetX();
+		iBarrierY = m_vecBarrier2[i]->GetY();
+		iBarrierHealth = m_vecBarrier2[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+			)
+		{
+			//Change health and destroy bullet
+			m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
+			return true;
+				
+		}
+	}
+	
+	//Check Barrier 3 for collision
+	for (unsigned int i=0; i < m_vecBarrier3.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier3[i]->GetX();
+		iBarrierY = m_vecBarrier3[i]->GetY();
+		iBarrierHealth = m_vecBarrier3[i]->GetHealth();
+		//Check if collides
+		if( (iBarrierHealth > 0) && 
+			(( iBulletX >= iBarrierX ) || ( iBulletX + 4 >= iBarrierX )) && 
+			(( iBulletX <= iBarrierX + 10 ) || ( iBulletX + 4 <= iBarrierX + 10 )) &&
+			( iBulletY >= iBarrierY ) &&
+			( iBulletY <= iBarrierY + 10 ) 
+			)
+		{
+			//Change health and destroy bullet
+			m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
+			return true;
+				
+		}
+	}
+	return ( false );
 }
 
 /***********************
@@ -555,10 +739,9 @@ void CLevel::SetMouseCoords(int _iX, int _iY)
 
 /***********************
 
- * SetMouseCoords: Set the x & y pos of the mouse
+ * CheckPlayerBulletCollision: Check if the player bullet is colliding with anything
  * @author: 
- * @parameter: int _x, x position
- *				int _y, y position
+ * @return: bool
 
  ********************/
 bool CLevel::CheckPlayerBulletCollision()
@@ -586,14 +769,15 @@ bool CLevel::CheckPlayerBulletCollision()
 		iInvaderH = m_vecInvaders[ i ]->GetHeight();
 
 		// Check if bullet collides
-		if( (( iBulletX >= iInvaderX ) || ( iBulletX + 4 >= iInvaderX )) && 
-			(( iBulletX <= iInvaderX + iInvaderW ) || ( iBulletX + 4 <= iInvaderX + iInvaderW )) &&
+		if( (( iBulletX >= iInvaderX - iInvaderW/2 ) || ( iBulletX + 4 >= iInvaderX - iInvaderW/2 )) && 
+			(( iBulletX <= iInvaderX + iInvaderW/2 ) || ( iBulletX + 4 <= iInvaderX + iInvaderW/2 )) &&
 			( iBulletY >= iInvaderY ) &&
-			( iBulletY <= iInvaderY + iInvaderH ) 
+			( iBulletY <= iInvaderY + iInvaderH ) &&
+			(!m_vecInvaders[i]->IsHit())
 		  )
 		{
 			//Bullet has hit the invader. Destroy the invader and the bullet.
-			m_vecInvaders.erase(m_vecInvaders.begin()+i,m_vecInvaders.begin()+i+1);
+			m_vecInvaders[i]->SetHit( true );
 			delete m_pPlayerBullet;
 			m_pPlayerBullet = nullptr;
 			return( true );
@@ -609,8 +793,8 @@ bool CLevel::CheckPlayerBulletCollision()
 		iInvaderH = m_pSpecialInvader->GetHeight();
 
 		// Check if bullet collides
-		if( (( iBulletX >= iInvaderX ) || ( iBulletX + 4 >= iInvaderX )) && 
-			(( iBulletX <= iInvaderX + iInvaderW ) || ( iBulletX + 4 <= iInvaderX + iInvaderW )) &&
+		if( (( iBulletX >= iInvaderX - iInvaderW/2 ) || ( iBulletX + 4 >= iInvaderX - iInvaderW/2 )) && 
+			(( iBulletX <= iInvaderX + iInvaderW/2 ) || ( iBulletX + 4 <= iInvaderX + iInvaderW/2 )) &&
 			( iBulletY >= iInvaderY ) &&
 			( iBulletY <= iInvaderY + iInvaderH ) 
 		  )
@@ -710,4 +894,64 @@ bool CLevel::CreateSpecialInvader()
 	}
 	// Otherwise no specail for you
 	return false;
+}
+
+
+/***********************
+
+ * ResetInvaders: Spawn moar invaders
+ * @author: 
+ * @return: void
+
+ ********************/
+void CLevel::ResetInvaders()
+{
+	while(!m_vecInvaders.empty())
+	{
+		CInvader* _pDelInvader = m_vecInvaders.back();
+		m_vecInvaders.pop_back();
+		delete _pDelInvader;
+		_pDelInvader = nullptr;
+	}
+
+	while(!m_vecInvaderBullets.empty())
+	{
+		CBullet* _pDelInvaderBullet = m_vecInvaderBullets.back();
+		m_vecInvaderBullets.pop_back();
+		delete _pDelInvaderBullet;
+		_pDelInvaderBullet = nullptr;
+	}
+
+	const int kiNumInvaders = 55;
+	const int kiStartX = 20;
+	const int kiGap = 15;
+
+	// Set x and y
+	int iCurrentX = kiStartX;
+	int iCurrentY = kiStartX;
+
+	// Loop through invaders
+	for (int i = 0; i < kiNumInvaders; ++i)
+	{
+		// Create, validate and initialise
+		CInvader* pInvader = new CInvader();
+		pInvader->Initialise();
+		// Set x & y
+		pInvader->SetX(iCurrentX);
+		pInvader->SetY(iCurrentY);
+
+		// Set current x
+		iCurrentX += pInvader->GetWidth() + kiGap;
+		// If is is greater than 500
+		if (iCurrentX > 500)
+		{
+			// Reset x
+			iCurrentX = kiStartX;
+			// Increase y
+			iCurrentY += 30;
+		}
+		// Push to vector
+		m_vecInvaders.push_back(pInvader);
+	}
+
 }

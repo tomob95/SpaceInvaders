@@ -37,5 +37,7 @@ std::string ToString(const T& _value)
 const int kiBulletSpeed = 7;
 const int kiYPos = 740;
 static int g_iGameSpeed = 15;
+static int g_iInvaderShootRate = 1;
+static unsigned int g_iMaxInvaderBullets = 8;
 
 #endif // __UTILS_H__

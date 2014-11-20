@@ -46,6 +46,7 @@ public:
 	HINSTANCE GetAppInstance();
 	HWND GetWindow();
 	void SetMouseCoords(int _iX, int _iY);
+	void GameOver();
 
 	// Singleton Methods
 	static CGame& GetInstance();
