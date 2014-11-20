@@ -29,6 +29,7 @@
 class CInvader;
 class CPlayer;
 class CBullet;
+class CBarrier;
 class CLevel
 {
 	// Member Functions
@@ -66,6 +67,12 @@ class CLevel
 	protected:
 		CPlayer* m_pPlayer;
 		static std::vector<CInvader*> m_vecInvaders;
+
+		std::vector<CBarrier*> m_vecBarrier1;
+		std::vector<CBarrier*> m_vecBarrier2;
+		std::vector<CBarrier*> m_vecBarrier3;
+		std::vector<CBarrier*> m_vecBarrier4;
+
 		int m_iWidth;
 		int m_iHeight;
 		int m_iInvadersRemaining;

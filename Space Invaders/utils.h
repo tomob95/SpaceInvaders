@@ -34,7 +34,7 @@ std::string ToString(const T& _value)
 	return (theStream.str());
 }
 
-const int kiBulletSpeed = 5;
+const float kiBulletSpeed = 0.5f;
 const int kiYPos = 740;
 
 #endif // __UTILS_H__

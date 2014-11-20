@@ -42,9 +42,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backbuffer.cpp" />
+    <ClCompile Include="Barrier.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="entity.cpp" />
@@ -95,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="backbuffer.h" />
+    <ClInclude Include="Barrier.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="entity.h" />
@@ -120,8 +128,14 @@
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Player.png" />
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top0.png" />
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png" />
+    <None Include="sprites\5.bmp" />
+    <None Include="sprites\4.bmp" />
+    <None Include="sprites\3.bmp" />
+    <None Include="sprites\2.bmp" />
+    <None Include="sprites\1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="sprites\Bullet.bmp" />
     <Image Include="Sprites\Bottom0.bmp" />
     <Image Include="Sprites\Bottom1.png" />
     <Image Include="Sprites\Invader.bmp" />

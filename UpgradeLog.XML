@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Space Invaders">
+</Property><Property Name="Solution File" Value="E:\MDS\GD1P03 2D Game Programming\Work\SpaceInvaders\Space Invaders.sln">
+</Property><Property Name="User Options File" Value="E:\MDS\GD1P03 2D Game Programming\Work\SpaceInvaders\Space Invaders.suo">
+</Property><Property Name="Date" Value="Wednesday, 19 November 2014">
+</Property><Property Name="Time" Value="17:16 p.m.">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Space Invaders.sln" Description="File successfully backed up as E:\MDS\GD1P03 2D Game Programming\Work\SpaceInvaders\Space Invaders.sln.old">
+</Event><Event ErrorLevel="0" Project="" Source="Space Invaders.suo" Description="File successfully backed up as E:\MDS\GD1P03 2D Game Programming\Work\SpaceInvaders\Space Invaders.suo.old">
+</Event><Event ErrorLevel="3" Project="Space Invaders" Source="Space Invaders\Space Invaders.vcxproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="Space Invaders.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Space Invaders.sln" Description="Converted">
+</Event></UpgradeLog>

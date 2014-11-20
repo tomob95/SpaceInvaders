@@ -20,8 +20,10 @@
 
 // This Include
 #include "Game.h"
+
 // Static Variables
 CGame* CGame::s_pGame = 0;
+
 // Static Function Prototypes
 // Implementation
 CGame::CGame():	m_pClock(0)

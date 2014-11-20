@@ -68,7 +68,7 @@ bool CBullet::Initialise()
 {
 	// TODO: need sprite
 	// Validate and initialise entity
-	VALIDATE(CEntity::Initialise( IDB_PLAYER ));
+	VALIDATE(CEntity::Initialise( IDB_BULLET ));
 	// Update sprite position
 	UpdateSpritePos();
 

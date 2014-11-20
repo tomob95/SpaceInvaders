@@ -15,45 +15,89 @@
 // Library Includes
 #include <locale>
 #include <codecvt>
+
 // Local Includes
 #include "Game.h"
 #include "player.h"
 #include "Bullet.h"
 #include "invader.h"
-//#include "Ball.h"
 #include "utils.h"
 #include "backbuffer.h"
+#include "Barrier.h"
+
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// 2014 (c) Media Design School
+//
+// File Name	: level.cpp
+// Description	: Implementation of the level class
+// Author		: Kelsey Scheurich, Thomas O'Brien
+// Mail			: kelsey.scheurich@mediadesign.school.nz
+//
+
 // This Include
 #include "Level.h"
-// Static Variables
 
+// Static Variables
 std::vector<CInvader*> CLevel::m_vecInvaders;
-// Static Function Prototypes
 
 // Implementation
 // TODO: rename this?
 #define CHEAT_BOUNCE_ON_BACK_WALL
 
-CLevel::CLevel()
-: m_iInvadersRemaining(0)
-, m_pPlayer(0)
-, m_iWidth(0)
-, m_iHeight(0){}
+/***********************
 
+ * CLevel: Constructor
+ * @author:
+
+ ********************/
+CLevel::CLevel()
+	: m_iInvadersRemaining(0)	// Default to 0
+	, m_pPlayer(0)
+	, m_iWidth(0)
+	, m_iHeight(0)
+{
+}
+
+/***********************
+
+ * ~CLevel: Deconstructor
+ * @author:
+
+ ********************/
 CLevel::~CLevel()
 {
+	// While there are still invaders
 	while (m_vecInvaders.size() > 0)
 	{
+		// Get the invader
 		CInvader* pInvader = m_vecInvaders[m_vecInvaders.size() - 1];
+		// pop
 		m_vecInvaders.pop_back();
+		// Clean up pointer
 		delete pInvader;
 	}
+	// Clean up memeber variable
 	delete m_pPlayer;
 	m_pPlayer = 0;
 }
 
+/***********************
+
+ * Initialise: Initialise the level
+ * @author:
+ * @parameter: int _iWidth, level width
+ *				int _iHeight, level height
+ * @return: bool
+
+ ********************/
 bool CLevel::Initialise(int _iWidth, int _iHeight)
 {
+	// Initialise variables
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 	m_fTimeElapsed = 5;
@@ -61,58 +105,142 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	m_pPlayerBullet = nullptr;
 	VALIDATE(m_pPlayer->Initialise());
 
-	// Set the paddle's position to be centered on the x,
+	// Set the player's position to be centered on the x,
 	// and a little bit up from the bottom of the window.
-	//m_pPlayer->SetX(_iWidth / 2.0f);
-	//m_pPlayer->SetY(_iHeight - ( 4 * m_pPlayer->GetHeight()));
 	m_pPlayer->SetX((_iWidth/2) - (m_pPlayer->GetWidth()/2));
 	m_pPlayer->SetY( kiYPos );
 
+	// Iniialise constants
 	const int kiNumInvaders = 55;
 	const int kiStartX = 20;
 	const int kiGap = 15;
 
+	// Set x and y
 	int iCurrentX = kiStartX;
 	int iCurrentY = kiStartX;
 
+	// Loop through invaders
 	for (int i = 0; i < kiNumInvaders; ++i)
 	{
+		// Create, validate and initialise
 		CInvader* pInvader = new CInvader();
 		VALIDATE(pInvader->Initialise());
+		// Set x & y
 		pInvader->SetX(iCurrentX);
 		pInvader->SetY(iCurrentY);
+
+		// Set current x
 		iCurrentX += pInvader->GetWidth() + kiGap;
+		// If is is greater than 500
 		if (iCurrentX > 500)
 		{
+			// Reset x
 			iCurrentX = kiStartX;
+			// Increase y
 			iCurrentY += 30;
 		}
+		// Push to vector
 		m_vecInvaders.push_back(pInvader);
 	}
 
+	// Set the barrier x & y
+	int _iBarrier1X = 50;
+	int _iBarrier1Y = 250;
+
+	//Initialise the barriers
+	for(int i=0; i<3; i++)
+	{
+		for(int j=0; j<3; j++)
+		{
+			// Create, validate and initialise
+			CBarrier* pBarrier = new CBarrier();
+			VALIDATE(pBarrier->Initialise());
+			// Set x & y
+			pBarrier->SetX(_iBarrier1X + 10*j);
+			pBarrier->SetY(_iBarrier1Y + 10*i);
+
+			// Push to vector
+			m_vecBarrier1.push_back(pBarrier);
+		}
+	}
+
+	// Set the number of invaders still on screen
 	SetInvadersRemaining(kiNumInvaders);
 	return (true);
 }
 
+/***********************
+
+ * Draw: Draw the level
+ * @author:
+
+ ********************/
 void CLevel::Draw()
 {
+	// Draw each invader
 	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 	{
 		m_vecInvaders[i]->Draw();
 	}
+
+	// Draw player
 	m_pPlayer->Draw();
 	
+	// Draw each barrier
+	for (unsigned int i = 0; i < m_vecBarrier1.size(); ++i)
+	{
+		m_vecBarrier1[i]->Draw();
+	}
+
+	// If the bullet exists
 	if( m_pPlayerBullet != nullptr )
 	{
+		// Draw it
 		m_pPlayerBullet->Draw();
 	}
+
+	// Draw the score
 	DrawScore();
 }
 
+/***********************
+
+ * Process: Process the level
+ * @author:
+ * @parameter: float _fDeltaTick - delta time
+
+ ********************/
 void CLevel::Process(float _fDeltaTick)
 {
 	// Set time elapsed to current + delta tick
 	m_fTimeElapsed += _fDeltaTick;
+
+	// If the bullet is not null
+	if( m_pPlayerBullet != nullptr )
+	{
+		// Process bullet
+		
+		// If the bullet is off the screen
+		if (m_pPlayerBullet->GetY() <= 0)
+		{
+			// Delete it
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
+		} 
+		// If the the bullet is off the screen in the other direction
+		else if (m_pPlayerBullet->GetY() > m_iHeight)
+		{
+			// Delete it
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;		
+		}
+		else
+		{
+			// Otherwise process & check for collisions
+			m_pPlayerBullet->Process( _fDeltaTick );
+			CheckPlayerBulletCollision();			
+		};
+	}
 
 	// If it has been more than one tick since start of game
 	if (m_fTimeElapsed > 1)
@@ -137,79 +265,108 @@ void CLevel::Process(float _fDeltaTick)
 		};
 
 	}
-	// If the bullet is not null
-	if( m_pPlayerBullet != nullptr )
-	{
-		// Process bullet
-		
-		// If the bullet is off the screen
-		if (m_pPlayerBullet->GetY() < 0)
-		{
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;
-		}
-		else if (m_pPlayerBullet->GetY() > m_iHeight)
-		{
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;		
-		}
-		else
-		{
-			m_pPlayerBullet->Process( _fDeltaTick );
-			CheckPlayerBulletCollision();			
-		};
-	}
+
 
 	// Update player position & process
 	m_pPlayer->SetX( m_fMouseX );
 	m_pPlayer->Process(_fDeltaTick);
 }
 
+/***********************
+
+ * GetPlayer: GetPlayer the level
+ * @author:
+ * @return: CPlayer*
+
+ ********************/
 CPlayer* CLevel::GetPlayer() const
 {
+	// Return member variable
 	return (m_pPlayer);
 }
 
+/***********************
+
+ * ProcessInvaderWallCollision: Process collision with wall
+ * @author:
+ * @parameter: float _fDeltaTick - delta time
+ * @return: bool
+
+ ********************/
 bool CLevel::ProcessInvaderWallCollision(float _fDeltaTick)
 {
+	// Loop through all invaders
 	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 	{
+		// If it is within the bounds
 		if ((m_vecInvaders[i]->GetX() + 30 > m_iWidth - m_vecInvaders[i]->GetWidth()  && CInvader::GetDirection()) ||  (m_vecInvaders[i]->GetX() -30 < 20 && !CInvader::GetDirection()))
 		{
+			// It collided
 			return 1;
 		}
 	}
+	// Else it didnt
 	return 0;
 
 }
 
+/***********************
+
+ * ProcessInvaderBulletCollision: Process collision with invader bullet
+ * @author:
+
+ ********************/
 void CLevel::ProcessInvaderBulletCollision()
 {
+	// Loop through all the invaders
 	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 	{
-		if (!m_vecInvaders[i]->IsHit())
-		{
-			// TODO: this
-		}
+		//TODO: this
 	}
 }
 
+/***********************
+
+ * GetInvadersRemaining: Get the remaining invaders
+ * @author:
+ * @return: int
+
+ ********************/
 int CLevel::GetInvadersRemaining() const
 {
+	// Return number of remaining invaders
 	return (m_iInvadersRemaining);
 }
 
+/***********************
+
+ * SetInvadersRemaining: Set the remaining invaders
+ * @author:
+ * @parameter: int _i, the number of invaders remaining
+
+ ********************/
 void CLevel::SetInvadersRemaining(int _i)
 {
+	// Set the number of invaders remaining
 	m_iInvadersRemaining = _i;
 	UpdateScoreText();
 }
 
+/***********************
+
+ * MoveInvadersDown: Move the invaders down
+ * @author:
+ * @parameter: float _fDeltaTick, delta time
+
+ ********************/
 void CLevel::MoveInvadersDown(float _fDeltaTick)
 {
+	// Loop through all the invaders
 	for (unsigned int i = 0; i < m_vecInvaders.size(); ++i)
 	{
+		// Move down
 		m_vecInvaders[i]->SetY(m_vecInvaders[i]->GetY() + 30);
+		// Process
 		m_vecInvaders[i]->ProcessSprite(_fDeltaTick);
 	}
 }
@@ -223,36 +380,54 @@ void CLevel::MoveInvadersDown(float _fDeltaTick)
  *				int _y, y position
 
  ********************/
-bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY)//_bDirection: 0=Down, 1=Up
+bool CLevel::CreateBullet(bool _bDirection, int _iPositionX, int _iPositionY) //_bDirection: 0=Down, 1=Up
 {
+	// If the bullet does not already exist
 	if(m_pPlayerBullet == nullptr)
 	{
 		// Create mew bullet object using input
 		m_pPlayerBullet = new CBullet( _bDirection, _iPositionX, _iPositionY );
-		// Debug string
-		//OutputDebugString( L"Totes workded " );
 		// Validate initialisation
 		VALIDATE( m_pPlayerBullet->Initialise() );
 		// Draw the new bullet
 		m_pPlayerBullet->Draw();
 		return true;
 	}
+	// Otherwise no bullet for you
 	return false;
 }
 
+/***********************
+
+ * DrawScore: Draw the score to the screen
+ * @author: 
+
+ ********************/
 void CLevel::DrawScore()
 {
+	// Get hdc
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	// Set x 7 y
 	const int kiX = 0;
 	const int kiY = m_iHeight - 50;
 	
+	// Output text
 	TextOut(hdc, kiX, kiY, m_strScore.c_str(), static_cast<int>(m_strScore.size()));
 }
 
+/***********************
+
+ * UpdateScoreText: Update the text
+ * @author: 
+
+ ********************/
 void CLevel::UpdateScoreText()
 {
+	// Convert to string
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	m_strScore = L"Bricks Remaining: ";
+	// Add to member variable
 	m_strScore += converter.from_bytes(ToString(GetInvadersRemaining()));
 }
 
@@ -290,28 +465,22 @@ bool CLevel::CheckPlayerBulletCollision()
 	int iInvaderH;
 
 	// For each invader
-	// TODO: why does this need to be unsigned?
-	// ANSWER .size returns an unsigned int (a vector can't be negative size)
-	// Just has conversion warnings when it is a normal int
 	for( unsigned int i = 0; i < m_vecInvaders.size(); ++i )
 	{
+		// get x, y, width and height
 		iInvaderX = m_vecInvaders[ i ]->GetX();
 		iInvaderY = m_vecInvaders[ i ]->GetY();
 		iInvaderW = m_vecInvaders[ i ]->GetWidth();
 		iInvaderH = m_vecInvaders[ i ]->GetHeight();
 
 		// Check if bullet collides
-		// TODO: Fix, never fires for some reason
-
-		// NOTE: This does fire, but it only calls true for the first invader in the vector
-		if( (( iBulletX >= iInvaderX ) || ( iBulletX + iBulletW >= iInvaderX )) && 
+		if( ( iBulletX >= iInvaderX ) && 
 			( iBulletX <= iInvaderX + iInvaderW ) &&
 			( iBulletY >= iInvaderY ) &&
 			( iBulletY <= iInvaderY + iInvaderH ) 
 		  )
 		{
-			// TODO: this
-			OutputDebugString( L"Totes workded \n" );
+			//Bullet has hit the invader. Destroy the invader and the bullet.
 			m_vecInvaders.erase(m_vecInvaders.begin()+i,m_vecInvaders.begin()+i+1);
 			delete m_pPlayerBullet;
 			m_pPlayerBullet = nullptr;
