@@ -249,9 +249,9 @@ void CSprite::SetY(int _i)
 
 /***********************
 
- * TranslateRelative: Set the y
+ * TranslateRelative: Translate the x & y values relative to their current position
  * @author:
- * parameter: int _i, 
+ * @parameter: int _i, 
 
  ********************/
 void CSprite::TranslateRelative(int _iX, int _iY)
@@ -261,8 +261,16 @@ void CSprite::TranslateRelative(int _iX, int _iY)
 	m_iY += _iY;
 }
 
+/***********************
+
+ * TranslateAbsolute: Translate the x & y values to a new position
+ * @author:
+ * @parameter: int _i, 
+
+ ********************/
 void CSprite::TranslateAbsolute(int _iX, int _iY)
 {
+	// Set as new value
 	m_iX = _iX;
 	m_iY = _iY;
 }
