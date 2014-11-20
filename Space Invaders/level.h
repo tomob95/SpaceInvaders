@@ -61,6 +61,7 @@ class CLevel
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
 		bool ProcessSpecialWallCollision(float _fDeltaTick);
 		bool CheckPlayerBulletCollision();
+		bool CheckBarrierInvaderCollision();
 
 	private:
 		float m_fTimeElapsed;

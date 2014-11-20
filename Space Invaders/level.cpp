@@ -325,6 +325,11 @@ void CLevel::Process(float _fDeltaTick)
 		m_iLives += 1;
 	}
 
+	if( CheckBarrierInvaderCollision() )
+	{
+		CGame::GetInstance().GameOver();
+	}
+
 	// If there is not a special
 	if( m_pSpecialInvader == nullptr )
 	{
@@ -673,7 +678,10 @@ void CLevel::DrawScore()
 {
 	// Get hdc
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
-
+	//Change bg color
+	SetBkColor(hdc, COLORREF RGB(0, 0, 0));
+	// Change text color
+	SetTextColor(hdc, COLORREF RGB(255, 255, 255));
 	// Set x & y
 	const int kiX = 10;
 	const int kiY = m_iHeight - 50;
@@ -991,4 +999,104 @@ void CLevel::SetInvaderSpeed( int _iSpeed )
 		// Set speed
 		m_vecInvaders[ i ]->m_iSpeed = _iSpeed;
 	}
+}
+
+/***********************
+
+ * CheckBarrierInvaderCollision: Check if the invaders are colliding with barriers
+ * @author: 
+ * @return: bool
+
+ ********************/
+bool CLevel::CheckBarrierInvaderCollision()
+{
+	// initialise x, y 
+	int iInvaderX;
+	int iInvaderY;
+	int iInvaderW;
+	int iInvaderH;
+	int iBarrierX;
+	int iBarrierY;
+	int iBarrierHealth;
+
+	//Check Barrier 1 for collision
+	for (unsigned int i=0; i < m_vecBarrier1.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier1[i]->GetX();
+		iBarrierY = m_vecBarrier1[i]->GetY();
+		iBarrierHealth = m_vecBarrier1[i]->GetHealth();
+
+		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
+		{
+			iInvaderX = m_vecInvaders[ j ]->GetX();
+			iInvaderY = m_vecInvaders[ j ]->GetY();
+			//Check if collides
+			if( (iBarrierHealth > 0) && 
+				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
+				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
+				( iInvaderY >= iBarrierY ) &&
+				( iInvaderY <= iBarrierY + 10 ) 
+			  )
+			{
+				//Change health 
+				m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
+				return( true );
+			}
+		}
+	}
+
+	//Check Barrier 2 for collision
+	for (unsigned int i=0; i < m_vecBarrier2.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier2[i]->GetX();
+		iBarrierY = m_vecBarrier2[i]->GetY();
+		iBarrierHealth = m_vecBarrier2[i]->GetHealth();
+		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
+		{
+			iInvaderX = m_vecInvaders[ j ]->GetX();
+			iInvaderY = m_vecInvaders[ j ]->GetY();
+			//Check if collides
+			if( (iBarrierHealth > 0) && 
+				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
+				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
+				( iInvaderY >= iBarrierY ) &&
+				( iInvaderY <= iBarrierY + 10 ) 
+			  )
+			{
+				//Change health 
+				m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
+				return( true );
+			}
+		}
+	}
+
+	//Check Barrier 3 for collision
+	for (unsigned int i=0; i < m_vecBarrier3.size(); i++)
+	{
+		//Get X, Y and Health
+		iBarrierX = m_vecBarrier3[i]->GetX();
+		iBarrierY = m_vecBarrier3[i]->GetY();
+		iBarrierHealth = m_vecBarrier3[i]->GetHealth();
+		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
+		{
+			iInvaderX = m_vecInvaders[ j ]->GetX();
+			iInvaderY = m_vecInvaders[ j ]->GetY();
+			//Check if collides
+			if( (iBarrierHealth > 0) && 
+				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
+				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
+				( iInvaderY >= iBarrierY ) &&
+				( iInvaderY <= iBarrierY + 10 ) 
+			  )
+			{
+				//Change health 
+				m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
+				return( true );
+			}
+		}
+	}
+
+	return( false );
 }
