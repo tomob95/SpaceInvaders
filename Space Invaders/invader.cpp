@@ -95,6 +95,7 @@ void CInvader::SwapDirection()
 
  * SwapDirection: Swap the direction of the invader
  * @author:
+ * @return: bool
 
  ********************/
 bool CInvader::GetDirection()
@@ -102,32 +103,66 @@ bool CInvader::GetDirection()
 	return m_bDirection;
 }
 
+/***********************
+
+ * Process: Process the invader
+ * @author:
+ * @parameter: float _fDeltaTick, delta tick
+
+ ********************/
 void CInvader::Process(float _fDeltaTick)
 {
+	// If the invader is not hit
 	if (!m_bHit)
 	{
+		// If the direction is true
 		if (m_bDirection)
 		{
+			// Go right
 			SetX(GetX() + 30);
 		}
 		else
 		{
+			// Go left
 			SetX(GetX() - 30);
 		}
+		// Process the entity
 		CEntity::Process(_fDeltaTick);
 	}
 }
 
+/***********************
+
+ * ProcessSprite: Process the sprite
+ * @author:
+ * @parameter: float _fDeltaTick, delta tick
+
+ ********************/
 void CInvader::ProcessSprite(float _fDeltaTick)
 {
+	// Process the entity
 	CEntity::Process(_fDeltaTick);
 }
 
+/***********************
+
+ * SetHit: Set the invader to hit
+ * @author:
+ * @parameter: bool _b
+
+ ********************/
 void CInvader::SetHit(bool _b)
 {
 	m_bHit = _b;
 }
 
+/***********************
+
+ * IsHit: Return if the invader is hit
+ * @author:
+ * @return: bool
+
+ ********************/
 bool CInvader::IsHit() const
 {
 	return (m_bHit);
