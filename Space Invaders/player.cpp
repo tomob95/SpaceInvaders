@@ -12,34 +12,68 @@
 // Mail			: kelsey.scheurich@mediadesign.school.nz
 //
 
-// Library Includes
 // Local Includes
 #include "resource.h"
 #include "utils.h"
+
 // This Include
 #include "player.h"
-// Static Variables
-// Static Function Prototypes
+
 // Implementation
+/***********************
+
+ * CPlayer: Constructor
+ * @author:
+
+ ********************/
 CPlayer::CPlayer()
 {
 }
+
+/***********************
+
+ * ~CPlayer: Deconstructor
+ * @author:
+
+ ********************/
 CPlayer::~CPlayer()
 {
 }
-bool
-CPlayer::Initialise()
+
+/***********************
+
+ * Initialise: Initialise the player
+ * @author:
+ * @return: bool
+
+ ********************/
+bool CPlayer::Initialise()
 {
+	// Validate and initialise entity
 	VALIDATE(CEntity::Initialise(IDB_PLAYER));
 	return (true);
 }
-void
-CPlayer::Draw()
+
+/***********************
+
+ * Draw: Draw the player
+ * @author:
+
+ ********************/
+void CPlayer::Draw()
 {
+	// Call entity draw
 	CEntity::Draw();
 }
-void
-CPlayer::Process(float _fDeltaTick)
+
+/***********************
+
+ * Process: Process the player
+ * @author:
+ * @parameter: float _fDeltaTick, delta tick
+
+ ********************/
+void CPlayer::Process(float _fDeltaTick)
 {
 	CEntity::Process(_fDeltaTick);
 }

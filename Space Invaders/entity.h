@@ -33,7 +33,7 @@ public:
 	virtual ~CEntity();
 
 	virtual bool Initialise(const int _kiSpriteID);
-	//virtual bool Initialise(const int _kiSpriteID, const int _kiMaskID);
+	virtual bool Initialise(const int _kiSpriteID, const int _kiMaskID);
 	virtual void Draw();
 	virtual void Process(float _fDeltaTick);
 	void SetX(int _i);

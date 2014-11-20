@@ -71,11 +71,12 @@ class CLevel
 		std::vector<CBarrier*> m_vecBarrier1;
 		std::vector<CBarrier*> m_vecBarrier2;
 		std::vector<CBarrier*> m_vecBarrier3;
+		std::vector<CBarrier*> m_vecBarrier4;
 
 		int m_iWidth;
 		int m_iHeight;
 		int m_iInvadersRemaining;
-		std::string m_strScore;
+		std::wstring m_strScore;
 		int m_iBulletSpeed;
 		int m_fMouseX;
 		int m_fMouseY;
