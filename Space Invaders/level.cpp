@@ -21,6 +21,7 @@
 #include "player.h"
 #include "Bullet.h"
 #include "invader.h"
+#include "Special_Invader.h"
 #include "utils.h"
 #include "backbuffer.h"
 #include "Barrier.h"
@@ -67,8 +68,8 @@ CLevel::~CLevel()
 	}
 
 	// Clean up memeber variables
-	delete m_pSpecialInvader;
-	m_pSpecialInvader = 0;
+	//delete m_pSpecialInvader;
+	//m_pSpecialInvader = 0;
 	
 	delete m_pPlayer;
 	m_pPlayer = 0;
@@ -91,6 +92,7 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	m_fTimeElapsed = 5;
 	m_pPlayer = new CPlayer();
 	m_pPlayerBullet = nullptr;
+	m_pSpecialInvader = nullptr;
 	VALIDATE(m_pPlayer->Initialise());
 
 	// Set the player's position to be centered on the x,
@@ -243,6 +245,13 @@ void CLevel::Draw()
 		m_pPlayerBullet->Draw();
 	}
 
+	// If the special exists
+	if( m_pSpecialInvader != nullptr )
+	{
+		// Draw it
+		m_pSpecialInvader->Draw();
+	}
+
 	// Draw the score
 	DrawScore();
 }
@@ -259,11 +268,17 @@ void CLevel::Process(float _fDeltaTick)
 	// Set time elapsed to current + delta tick
 	m_fTimeElapsed += _fDeltaTick;
 
-	int iRand = rand() % 100;
-
-	if( iRand == 2 )
+	// If there is not a special
+	if( m_pSpecialInvader == nullptr )
 	{
-		//m_pSpecialInvader = new m_pInvader
+		// Generate random number
+		int iRand = rand() % 500;
+		// If it is 2
+		if( iRand == 2 )
+		{
+			// Create a special
+			CreateSpecialInvader();
+		}
 	}
 
 	// If the bullet is not null
@@ -309,6 +324,23 @@ void CLevel::Process(float _fDeltaTick)
 		}	
 	};
 
+	//Process special
+	if( m_pSpecialInvader != nullptr )
+	{
+		// If invader collides with wall
+		if( ProcessSpecialWallCollision( _fDeltaTick ) )
+		{
+			// delete special
+			delete m_pSpecialInvader;
+			m_pSpecialInvader = nullptr;
+		}
+		else
+		{
+			// Else move sideways
+			m_pSpecialInvader->Process( _fDeltaTick );	
+		}
+	}
+
 	//Process each barrier
 	for(unsigned int i=0; i<m_vecBarrier1.size(); i++)
 	{
@@ -350,6 +382,31 @@ bool CLevel::ProcessInvaderWallCollision(float _fDeltaTick)
 	{
 		// If it is within the bounds
 		if ((m_vecInvaders[i]->GetX() + 30 > m_iWidth - m_vecInvaders[i]->GetWidth()  && CInvader::GetDirection()) ||  (m_vecInvaders[i]->GetX() -30 < 20 && !CInvader::GetDirection()))
+		{
+			// It collided
+			return 1;
+		}
+	}
+	// Else it didnt
+	return 0;
+
+}
+
+/***********************
+
+ * ProcessInvaderWallCollision: Process collision with wall
+ * @author:
+ * @parameter: float _fDeltaTick - delta time
+ * @return: bool
+
+ ********************/
+bool CLevel::ProcessSpecialWallCollision(float _fDeltaTick)
+{
+	// Loop through all invaders
+	if( m_pSpecialInvader != nullptr )
+	{
+		// If it is within the bounds
+		if (m_pSpecialInvader->GetX() + 30 > m_iWidth - m_pSpecialInvader->GetWidth())
 		{
 			// It collided
 			return 1;
@@ -543,6 +600,28 @@ bool CLevel::CheckPlayerBulletCollision()
 		}
 	}
 
+	// Check for special collision
+	if( m_pSpecialInvader != nullptr )
+	{
+		iInvaderX = m_pSpecialInvader->GetX();
+		iInvaderY = m_pSpecialInvader->GetY();
+		iInvaderW = m_pSpecialInvader->GetWidth();
+		iInvaderH = m_pSpecialInvader->GetHeight();
+
+		// Check if bullet collides
+		if( (( iBulletX >= iInvaderX ) || ( iBulletX + 4 >= iInvaderX )) && 
+			(( iBulletX <= iInvaderX + iInvaderW ) || ( iBulletX + 4 <= iInvaderX + iInvaderW )) &&
+			( iBulletY >= iInvaderY ) &&
+			( iBulletY <= iInvaderY + iInvaderH ) 
+		  )
+		{
+			//Bullet has hit the invader. Destroy the invader and the bullet.
+			delete m_pSpecialInvader;
+			m_pSpecialInvader = nullptr;
+			return( true );
+		}
+	}
+
 	//Check Barrier 1 for collision
 	for (unsigned int i=0; i < m_vecBarrier1.size(); i++)
 	{
@@ -612,4 +691,23 @@ bool CLevel::CheckPlayerBulletCollision()
 		}
 	}
 	return( false );
+}
+
+bool CLevel::CreateSpecialInvader()
+{
+	// If the bullet does not already exist
+	if(m_pSpecialInvader == nullptr)
+	{
+		// Create mew special object using input
+		m_pSpecialInvader = new CSPInvader();
+		// Validate initialisation
+		VALIDATE( m_pSpecialInvader->Initialise() );
+		m_pSpecialInvader->SetX( 20 );
+		m_pSpecialInvader->SetY( 20 );
+		// Draw the new bullet
+		m_pSpecialInvader->Draw();
+		return true;
+	}
+	// Otherwise no specail for you
+	return false;
 }

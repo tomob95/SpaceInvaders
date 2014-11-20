@@ -98,6 +98,7 @@
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="Special_Invader.cpp" />
     <ClCompile Include="sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +115,7 @@
     <ClInclude Include="level.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Special_Invader.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
@@ -133,6 +135,8 @@
     <None Include="sprites\3.bmp" />
     <None Include="sprites\2.bmp" />
     <None Include="sprites\1.bmp" />
+    <None Include="sprites\bitmap2.bmp" />
+    <None Include="Sprites\Special.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="sprites\Bullet.bmp" />

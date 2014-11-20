@@ -27,6 +27,7 @@
 
 // Prototypes
 class CInvader;
+class CSPInvader;
 class CPlayer;
 class CBullet;
 class CBarrier;
@@ -46,6 +47,7 @@ class CLevel
 		static void MoveInvadersDown(float _fDeltaTick);
 		void SetMouseCoords(int _iX, int _iY);
 		bool CreateBullet(bool _bDirection, int _iPositionX,  int _iPositionY); //_bDirection: 0=Down, 1=Up
+		bool CreateSpecialInvader();
 
 
 	protected:
@@ -54,6 +56,7 @@ class CLevel
 		void DrawScore();
 		void SetInvadersRemaining(int _i);
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
+		bool ProcessSpecialWallCollision(float _fDeltaTick);
 		bool CheckPlayerBulletCollision();
 
 	private:
@@ -80,7 +83,7 @@ class CLevel
 		int m_iBulletSpeed;
 		int m_fMouseX;
 		int m_fMouseY;
-		CInvader* m_pSpecialInvader;
+		CSPInvader* m_pSpecialInvader;
 
 	private:
 };
