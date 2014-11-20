@@ -142,7 +142,6 @@ void CBullet::Process(float _fDeltaTick)
 		// Process entity
 		UpdateSpritePos();
 		CEntity::Process(_fDeltaTick);
-		Draw();
 	}
 }
 

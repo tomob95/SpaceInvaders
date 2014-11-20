@@ -22,25 +22,13 @@
 #include "Clock.h"
 #include "utils.h"
 
-#define WINDOW_CLASS_NAME L"Space Invaders"
+#define WINDOW_CLASS_NAME "Space Invaders"
 
-/***********************
 
- * WindowProc: Main message handler
- * @author:
- * @parameter: HWND _hWnd, window handler
- *				UINT _uiMsg, message
- *				WPARAM _wParam, wparam
- *				LPARAM _lParam, lparam
- * @return: LRESULT CALLBACK
-
- ********************/
 LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 {
-	// Switch message
 	switch (_uiMsg)
 	{
-		// If user closes
 		case WM_DESTROY:
 		{
 			PostQuitMessage(0);
@@ -76,20 +64,8 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 	return (DefWindowProc(_hWnd, _uiMsg, _wParam, _lParam));
 }
 
-/***********************
-
- * CreateAndRegisterWindow: Create and register the window
- * @author:
- * @parameter: HINSTANCE _hInstance, instance
- *				int _iWidth, width
- *				int _iHeight, height
- *				LPCWSTR _pcTitle, title
- * @return: HWND
-
- ********************/
-HWND CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, LPCWSTR _pcTitle)
+HWND CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, LPCSTR _pcTitle)
 {
-	// Initialise
 	WNDCLASSEX winclass;
 	winclass.cbSize = sizeof(WNDCLASSEX);
 	winclass.style = CS_HREDRAW | CS_VREDRAW;
@@ -128,57 +104,35 @@ HWND CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, LP
 	return (hwnd);
 }
 
-/***********************
-
- * WinMain: Main implementation of the class
- * @author:
- * @parameter: HINSTANCE _hInstance, instance
- *				HINSTANCE _hPrevInstance, previous instance
- *				LPSTR _lpCmdline, cmd line
- *				int _iCmdshow, cmd show
- * @return: HWND
-
- ********************/
 int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _iCmdshow)
 {
-	// Initialise msg
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
-
-	// Initialise width & height
 	const int kiWidth = 835;
 	const int kiHeight = 800;
-
-	// Create window
-	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Space Invaders");
-	// Create game
+	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, "Space Invaders");
 	CGame& rGame = CGame::GetInstance();
 
-	// If game failed to initialise
+
+
 	if (!rGame.Initialise(_hInstance, hwnd, kiWidth, kiHeight))
 	{
 		// Failed
 		return (0);
 	}
 
-	// Main event loops
-	// While the user has not quite
 	while (msg.message != WM_QUIT)
 	{
-		// Do message things
 		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		// Otherwise play the game
 		else
 		{
 			rGame.ExecuteOneFrame();
 		}
 	}
-
-	// Destory the game
 	CGame::DestroyInstance();
 
 	return (static_cast<int>(msg.wParam));

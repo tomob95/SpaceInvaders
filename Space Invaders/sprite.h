@@ -34,7 +34,7 @@ public:
 	~CSprite();
 
 	bool Initialise(int _iResourceID);
-	bool Initialise(int _iResourceID, int _iMaskResourceID);
+//	bool Initialise(int _iResourceID, int _iMaskResourceID);
 	void Draw();
 	void Process(float _fDeltaTick);
 	int GetWidth() const;
@@ -45,11 +45,14 @@ public:
 	void SetY(int _i);
 	void TranslateRelative(int _iX, int _iY);
 	void TranslateAbsolute(int _iX, int _iY);
+	void ReplaceSprite(HBITMAP &_hSprite);
+	//CSprite(const CSprite& _kr);
+	//CSprite& operator= (const CSprite& _kr);
 
 protected:
+
 private:
-	CSprite(const CSprite& _kr);
-	CSprite& operator= (const CSprite& _kr);
+
 
 // Member Variables
 public:
@@ -58,9 +61,9 @@ protected:
 	int m_iX;
 	int m_iY;
 	HBITMAP m_hSprite;
-	HBITMAP m_hMask;
+	//HBITMAP m_hMask;
 	BITMAP m_bitmapSprite;
-	BITMAP m_bitmapMask;
+	//BITMAP m_bitmapMask;
 	static HDC s_hSharedSpriteDC;
 	static int s_iRefCount;
 

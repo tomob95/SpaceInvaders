@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Barrier">
+      <UniqueIdentifier>{30400030-ec6b-461c-9fe6-cc633b7327ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Barrier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,6 +104,9 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Barrier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Framework.rc">
@@ -126,6 +135,21 @@
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="sprites\5.bmp">
+      <Filter>Resource Files\Barrier</Filter>
+    </None>
+    <None Include="sprites\4.bmp">
+      <Filter>Resource Files\Barrier</Filter>
+    </None>
+    <None Include="sprites\3.bmp">
+      <Filter>Resource Files\Barrier</Filter>
+    </None>
+    <None Include="sprites\2.bmp">
+      <Filter>Resource Files\Barrier</Filter>
+    </None>
+    <None Include="sprites\1.bmp">
+      <Filter>Resource Files\Barrier</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprites\Invader.bmp">
@@ -150,6 +174,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\Top1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="sprites\Bullet.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
