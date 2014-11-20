@@ -79,6 +79,10 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 					int iInvaderSpeed = GetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
 					int iBulletSpeed = GetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
 
+					int iInvInvincible = IsDlgButtonChecked( _hDlg, IDC_INV_INV );
+					int iPlyInvincible = IsDlgButtonChecked( _hDlg, IDC_PLY_INV );
+					int iBulletPierce = IsDlgButtonChecked( _hDlg, IDC_BUL_P );
+
 					// Validate input
 					if( iInvaderSpeed > 0 && iBulletSpeed > 0 )
 					{

@@ -49,7 +49,15 @@ class CLevel
 		bool CreateSpecialInvader();
 		void ResetInvaders();
 		void SetBulletSpeed( int _iSpeed );
+		int GetBulletSpeed();
 		void SetInvaderSpeed( int _iSpeed );
+		int GetInvaderSpeed();
+		void SetInvaderInvincible( int _iInv );
+		int GetInvaderInvincible();
+		void SetPlayerInvincible( int _iInv );
+		int GetPlayerInvincible();
+		void SetBulletPierce( int _iInv );
+		int GetBulletPierce();
 
 
 
@@ -87,6 +95,9 @@ class CLevel
 		std::string m_strScore;
 		int m_iBulletSpeed;
 		int m_iInvaderSpeed;
+		int m_iBulletPierce;
+		int m_iInvaderInv;
+		int m_iPlayerInv;
 		int m_fMouseX;
 		int m_fMouseY;
 		CSPInvader* m_pSpecialInvader;

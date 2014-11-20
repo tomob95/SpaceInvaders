@@ -41,10 +41,15 @@ std::vector<CInvader*> CLevel::m_vecInvaders;
 
  ********************/
 CLevel::CLevel()
-	: m_iScore(0)	// Default to 0
-	, m_pPlayer(0)
-	, m_iWidth(0)
-	, m_iHeight(0)
+	: m_iScore(0), 
+		m_pPlayer(0), 
+		m_iWidth(0), 
+		m_iHeight(0),
+		m_iBulletSpeed(7),
+		m_iInvaderSpeed(1),
+		m_iBulletPierce(0),
+		m_iInvaderInv(0),
+		m_iPlayerInv(0)
 {
 }
 
@@ -986,6 +991,18 @@ void CLevel::SetBulletSpeed( int _iSpeed )
 
 /***********************
 
+ * GetBulletSpeed: Get the bullet speed
+ * @author: 
+ * @return: int
+
+ ********************/
+int CLevel::GetBulletSpeed()
+{
+	return( m_iBulletSpeed );
+}
+
+/***********************
+
  * SetInvaderSpeed: Set the invader speed
  * @author: 
  * @parameter: int _iSpeed, speed to set
@@ -999,6 +1016,90 @@ void CLevel::SetInvaderSpeed( int _iSpeed )
 		// Set speed
 		m_vecInvaders[ i ]->m_iSpeed = _iSpeed;
 	}
+}
+
+/***********************
+
+ * GetInvaderSpeed: Get the invader speed
+ * @author: 
+ * @return: int
+
+ ********************/
+int CLevel::GetInvaderSpeed()
+{
+	return( m_iInvaderSpeed );
+}
+
+/***********************
+
+ * SetInvaderInvincible: Set the invader invincibility
+ * @author: 
+ * @parameter: int _iInv, to set
+
+ ********************/
+void CLevel::SetInvaderInvincible( int _iInv )
+{
+	m_iInvaderInv = _iInv;
+}
+
+/***********************
+
+ * GetInvaderInvincible: Get the invader invincibility
+ * @author: 
+ * @return: int
+
+ ********************/
+int CLevel::GetInvaderInvincible()
+{
+	return( m_iInvaderInv );
+}
+
+/***********************
+
+ * SetInvaderInvincible: Set the invader invincibility
+ * @author: 
+ * @parameter: int _iInv, to set
+
+ ********************/
+void CLevel::SetPlayerInvincible( int _iInv )
+{
+	m_iPlayerInv = _iInv;
+}
+
+/***********************
+
+ * GetPlayerInvincible: Get the player invincibility
+ * @author: 
+ * @return: int
+
+ ********************/
+int CLevel::GetPlayerInvincible()
+{
+	return( m_iPlayerInv );
+}
+
+/***********************
+
+ * SetInvaderInvincible: Set the invader invincibility
+ * @author: 
+ * @parameter: int _iInv, to set
+
+ ********************/
+void CLevel::SetBulletPierce( int _iInv )
+{
+	m_iPlayerInv = _iInv;
+}
+
+/***********************
+
+ * GetBulletPierce: Get the bullet pierce
+ * @author: 
+ * @return: int
+
+ ********************/
+int CLevel::GetBulletPierce()
+{
+	return( m_iBulletPierce );
 }
 
 /***********************

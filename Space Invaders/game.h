@@ -47,7 +47,8 @@ public:
 	HWND GetWindow();
 	void SetMouseCoords(int _iX, int _iY);
 	void GameOver();
-	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed );
+	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iInvaderInv, int _iPlayerInv, int _iBulletPierce );
+	void GetDlgProperties();
 
 	// Singleton Methods
 	static CGame& GetInstance();
@@ -67,6 +68,11 @@ protected:
 	CClock* m_pClock;
 	CBackBuffer* m_pBackBuffer;
 	CLevel* m_pLevel;
+	int m_iInvSpeed;
+	int m_iBulletSpeed;
+	int m_iInvInvincible;
+	int m_iPlyInvincible;
+	int m_iBulletPierce;
 
 	//Application data
 	HINSTANCE m_hApplicationInstance;
