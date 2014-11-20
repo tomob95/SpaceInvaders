@@ -52,8 +52,6 @@ class CLevel
 		int GetBulletSpeed();
 		void SetInvaderSpeed( int _iSpeed );
 		int GetInvaderSpeed();
-		void SetInvaderInvincible( int _iInv );
-		int GetInvaderInvincible();
 		void SetPlayerInvincible( int _iInv );
 		int GetPlayerInvincible();
 		void SetBulletPierce( int _iInv );
@@ -96,7 +94,6 @@ class CLevel
 		int m_iBulletSpeed;
 		int m_iInvaderSpeed;
 		int m_iBulletPierce;
-		int m_iInvaderInv;
 		int m_iPlayerInv;
 		int m_fMouseX;
 		int m_fMouseY;

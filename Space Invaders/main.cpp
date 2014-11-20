@@ -52,9 +52,32 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 		// Initialisation
 	case WM_INITDIALOG:
 		{
+			// Get current checked values
+			int iCheckedPly = CGame::GetInstance().GetLevel()->GetPlayerInvincible();
+			int iCheckedBullet = CGame::GetInstance().GetLevel()->GetBulletPierce();
+
 			// Initialise input text boxes
-			SetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
-			SetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
+			SetDlgItemInt( _hDlg, IDC_EDIT1, CGame::GetInstance().GetLevel()->GetInvaderSpeed(), 1 );
+			SetDlgItemInt( _hDlg, IDC_EDIT2, CGame::GetInstance().GetLevel()->GetBulletSpeed(), 1 );
+
+			if( iCheckedPly == 0 )
+			{
+				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_UNCHECKED );
+			}
+			else if( iCheckedPly == 1 )
+			{
+				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_CHECKED );
+			}
+
+			if( iCheckedBullet == 0 )
+			{
+				CheckDlgButton( _hDlg, IDC_BUL_P, BST_UNCHECKED );
+			}
+			else if( iCheckedBullet == 1 )
+			{
+				CheckDlgButton( _hDlg, IDC_BUL_P, BST_CHECKED );
+			}
+
 			return( true );
 		}
 		break;
@@ -79,7 +102,6 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 					int iInvaderSpeed = GetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
 					int iBulletSpeed = GetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
 
-					int iInvInvincible = IsDlgButtonChecked( _hDlg, IDC_INV_INV );
 					int iPlyInvincible = IsDlgButtonChecked( _hDlg, IDC_PLY_INV );
 					int iBulletPierce = IsDlgButtonChecked( _hDlg, IDC_BUL_P );
 
@@ -87,7 +109,11 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 					if( iInvaderSpeed > 0 && iBulletSpeed > 0 )
 					{
 						// If valid, process into game
-						CGame::GetInstance().SetDlgProperties( iInvaderSpeed, iBulletSpeed );
+						//CGame::GetInstance().SetDlgProperties( iInvaderSpeed, iBulletSpeed, iInvInvincible, iPlyInvincible, iBulletPierce );
+						CGame::GetInstance().GetLevel()->SetInvaderSpeed( iInvaderSpeed );
+						CGame::GetInstance().GetLevel()->SetBulletSpeed( iBulletSpeed );
+						CGame::GetInstance().GetLevel()->SetPlayerInvincible( iPlyInvincible );
+						CGame::GetInstance().GetLevel()->SetBulletPierce( iBulletPierce );
 					}
 					else
 					{

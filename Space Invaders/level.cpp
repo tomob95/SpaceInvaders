@@ -48,7 +48,6 @@ CLevel::CLevel()
 		m_iBulletSpeed(7),
 		m_iInvaderSpeed(1),
 		m_iBulletPierce(0),
-		m_iInvaderInv(0),
 		m_iPlayerInv(0)
 {
 }
@@ -555,7 +554,10 @@ bool CLevel::ProcessInvaderBulletCollision(CBullet* _pBullet)
 		)
 	{
 		//Bullet has hit the Player. Destroy the bullet and remove a life.
-		m_iLives -= 1;
+		if( m_iPlayerInv != 1)
+		{
+			m_iLives -= 1;
+		}
 		return true;
 	}
 	
@@ -788,8 +790,11 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Bullet has hit the invader. Destroy the invader and the bullet.
 			m_vecInvaders[i]->SetHit( true );
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;
+			if(m_iBulletPierce != 1 )
+			{
+				delete m_pPlayerBullet;
+				m_pPlayerBullet = nullptr;
+			}
 			// Increase score
 			m_iScore += 10;
 			return( true );
@@ -837,8 +842,11 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;
+			if(m_iBulletPierce != 1 )
+			{
+				delete m_pPlayerBullet;
+				m_pPlayerBullet = nullptr;
+			}
 			return( true );
 		}
 	}
@@ -860,8 +868,11 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;
+			if(m_iBulletPierce != 1 )
+			{
+				delete m_pPlayerBullet;
+				m_pPlayerBullet = nullptr;
+			}
 			return( true );
 		}
 	}
@@ -883,8 +894,11 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
-			delete m_pPlayerBullet;
-			m_pPlayerBullet = nullptr;
+			if(m_iBulletPierce != 1 )
+			{
+				delete m_pPlayerBullet;
+				m_pPlayerBullet = nullptr;
+			}
 			return( true );
 		}
 	}
@@ -1016,6 +1030,8 @@ void CLevel::SetInvaderSpeed( int _iSpeed )
 		// Set speed
 		m_vecInvaders[ i ]->m_iSpeed = _iSpeed;
 	}
+
+	m_iInvaderSpeed = _iSpeed;
 }
 
 /***********************
@@ -1028,30 +1044,6 @@ void CLevel::SetInvaderSpeed( int _iSpeed )
 int CLevel::GetInvaderSpeed()
 {
 	return( m_iInvaderSpeed );
-}
-
-/***********************
-
- * SetInvaderInvincible: Set the invader invincibility
- * @author: 
- * @parameter: int _iInv, to set
-
- ********************/
-void CLevel::SetInvaderInvincible( int _iInv )
-{
-	m_iInvaderInv = _iInv;
-}
-
-/***********************
-
- * GetInvaderInvincible: Get the invader invincibility
- * @author: 
- * @return: int
-
- ********************/
-int CLevel::GetInvaderInvincible()
-{
-	return( m_iInvaderInv );
 }
 
 /***********************
@@ -1087,7 +1079,7 @@ int CLevel::GetPlayerInvincible()
  ********************/
 void CLevel::SetBulletPierce( int _iInv )
 {
-	m_iPlayerInv = _iInv;
+	m_iBulletPierce = _iInv;
 }
 
 /***********************

@@ -252,10 +252,12 @@ void CGame::GameOver()
  *				int _iBulletSpeed, speed of bullet
 
  ********************/
-void CGame::SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iInvaderInv, int _iPlayerInv, int _iBulletPierce )
+void CGame::SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iPlayerInv, int _iBulletPierce )
 {
 	m_pLevel->SetBulletSpeed( _iBulletSpeed );
 	m_pLevel->SetInvaderSpeed( _iInvSpeed );
+	m_pLevel->SetPlayerInvincible( _iPlayerInv );
+	m_pLevel->SetBulletPierce( _iBulletPierce );
 }
 
 /*******************
@@ -270,7 +272,6 @@ void CGame::GetDlgProperties()
 {
 	m_iInvSpeed = m_pLevel->GetInvaderSpeed();
 	m_iBulletSpeed = m_pLevel->GetBulletSpeed();
-	m_iInvInvincible = m_pLevel->GetInvaderInvincible();
 	m_iPlyInvincible = m_pLevel->GetPlayerInvincible();
 	m_iBulletPierce = m_pLevel->GetBulletPierce();
 }

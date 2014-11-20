@@ -47,7 +47,7 @@ public:
 	HWND GetWindow();
 	void SetMouseCoords(int _iX, int _iY);
 	void GameOver();
-	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iInvaderInv, int _iPlayerInv, int _iBulletPierce );
+	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iPlayerInv, int _iBulletPierce );
 	void GetDlgProperties();
 
 	// Singleton Methods
