@@ -25,20 +25,6 @@
 #include "backbuffer.h"
 #include "Barrier.h"
 
-//
-// Bachelor of Software Engineering
-// Media Design School
-// Auckland
-// New Zealand
-//
-// 2014 (c) Media Design School
-//
-// File Name	: level.cpp
-// Description	: Implementation of the level class
-// Author		: Kelsey Scheurich, Thomas O'Brien
-// Mail			: kelsey.scheurich@mediadesign.school.nz
-//
-
 // This Include
 #include "Level.h"
 
@@ -46,8 +32,6 @@
 std::vector<CInvader*> CLevel::m_vecInvaders;
 
 // Implementation
-// TODO: rename this?
-#define CHEAT_BOUNCE_ON_BACK_WALL
 
 /***********************
 
@@ -274,6 +258,13 @@ void CLevel::Process(float _fDeltaTick)
 {
 	// Set time elapsed to current + delta tick
 	m_fTimeElapsed += _fDeltaTick;
+
+	int iRand = rand() % 100;
+
+	if( iRand == 2 )
+	{
+		//m_pSpecialInvader = new m_pInvader
+	}
 
 	// If the bullet is not null
 	if( m_pPlayerBullet != nullptr )

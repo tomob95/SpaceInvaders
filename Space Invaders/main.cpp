@@ -15,6 +15,7 @@
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
+#include <time.h>
 
 //Local Includes
 #include "Game.h"
@@ -144,6 +145,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 	// Initialise msg
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
+	srand(time(NULL));
 
 	// Initialise width & height
 	const int kiWidth = 835;
