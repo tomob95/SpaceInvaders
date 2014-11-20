@@ -6,8 +6,8 @@
 //
 // 2014 (c) Media Design School
 //
-// File Name	: bullet.h
-// Description	: Header file for bullet class
+// File Name	: barrier.h
+// Description	: Header file for barrier class
 // Author		: Kelsey Scheurich, Thomas O'Brien
 // Mail			: kelsey.scheurich@mediadesign.school.nz
 //
