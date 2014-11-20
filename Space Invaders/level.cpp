@@ -41,7 +41,7 @@ std::vector<CInvader*> CLevel::m_vecInvaders;
 
  ********************/
 CLevel::CLevel()
-	: m_iInvadersRemaining(0)	// Default to 0
+	: m_iScore(0)	// Default to 0
 	, m_pPlayer(0)
 	, m_iWidth(0)
 	, m_iHeight(0)
@@ -237,8 +237,6 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 		}
 	}
 
-	// Set the number of invaders still on screen
-	SetInvadersRemaining(kiNumInvaders);
 	return (true);
 }
 
@@ -445,6 +443,9 @@ void CLevel::Process(float _fDeltaTick)
 	// Update player position & process
 	m_pPlayer->SetX( m_fMouseX );
 	m_pPlayer->Process(_fDeltaTick);
+
+	// Update score
+	UpdateScoreText();
 }
 
 /***********************
@@ -618,33 +619,6 @@ bool CLevel::ProcessInvaderBulletCollision(CBullet* _pBullet)
 
 /***********************
 
- * GetInvadersRemaining: Get the remaining invaders
- * @author:
- * @return: int
-
- ********************/
-int CLevel::GetInvadersRemaining() const
-{
-	// Return number of remaining invaders
-	return (m_iInvadersRemaining);
-}
-
-/***********************
-
- * SetInvadersRemaining: Set the remaining invaders
- * @author:
- * @parameter: int _i, the number of invaders remaining
-
- ********************/
-void CLevel::SetInvadersRemaining(int _i)
-{
-	// Set the number of invaders remaining
-	m_iInvadersRemaining = _i;
-	UpdateScoreText();
-}
-
-/***********************
-
  * MoveInvadersDown: Move the invaders down
  * @author:
  * @parameter: float _fDeltaTick, delta time
@@ -699,8 +673,8 @@ void CLevel::DrawScore()
 	// Get hdc
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
-	// Set x 7 y
-	const int kiX = 0;
+	// Set x & y
+	const int kiX = 10;
 	const int kiY = m_iHeight - 50;
 	
 	// Output text
@@ -717,9 +691,9 @@ void CLevel::UpdateScoreText()
 {
 	// Convert to string
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	m_strScore = L"Bricks Remaining: ";
+	m_strScore = L"Score: ";
 	// Add to member variable
-	m_strScore += converter.from_bytes(ToString(GetInvadersRemaining()));
+	m_strScore += converter.from_bytes(ToString(m_iScore));
 }
 
 /***********************
@@ -780,6 +754,8 @@ bool CLevel::CheckPlayerBulletCollision()
 			m_vecInvaders[i]->SetHit( true );
 			delete m_pPlayerBullet;
 			m_pPlayerBullet = nullptr;
+			// Increase score
+			m_iScore += 10;
 			return( true );
 		}
 	}
@@ -802,6 +778,8 @@ bool CLevel::CheckPlayerBulletCollision()
 			//Bullet has hit the invader. Destroy the invader and the bullet.
 			delete m_pSpecialInvader;
 			m_pSpecialInvader = nullptr;
+			// Increase score
+			m_iScore += 100;
 			return( true );
 		}
 	}
