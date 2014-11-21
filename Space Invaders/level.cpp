@@ -41,14 +41,10 @@ std::vector<CInvader*> CLevel::m_vecInvaders;
 
  ********************/
 CLevel::CLevel()
-	: m_iScore(0), 
-		m_pPlayer(0), 
-		m_iWidth(0), 
-		m_iHeight(0),
-		m_iBulletSpeed(7),
-		m_iInvaderSpeed(1),
-		m_iBulletPierce(0),
-		m_iPlayerInv(0)
+	: m_iScore(0)	// Default to 0
+	, m_pPlayer(0)
+	, m_iWidth(0)
+	, m_iHeight(0)
 {
 }
 
@@ -303,7 +299,7 @@ void CLevel::Draw()
 	// Draw the score
 	DrawScore();
 	DrawLives();
-}
+} 
 
 /***********************
 
@@ -327,11 +323,6 @@ void CLevel::Process(float _fDeltaTick)
 	{
 		ResetInvaders();
 		m_iLives += 1;
-	}
-
-	if( CheckBarrierInvaderCollision() )
-	{
-		CGame::GetInstance().GameOver();
 	}
 
 	// If there is not a special
@@ -554,10 +545,7 @@ bool CLevel::ProcessInvaderBulletCollision(CBullet* _pBullet)
 		)
 	{
 		//Bullet has hit the Player. Destroy the bullet and remove a life.
-		if( m_iPlayerInv != 1)
-		{
-			m_iLives -= 1;
-		}
+		m_iLives -= 1;
 		return true;
 	}
 	
@@ -685,10 +673,7 @@ void CLevel::DrawScore()
 {
 	// Get hdc
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
-	//Change bg color
-	SetBkColor(hdc, COLORREF RGB(0, 0, 0));
-	// Change text color
-	SetTextColor(hdc, COLORREF RGB(255, 255, 255));
+
 	// Set x & y
 	const int kiX = 10;
 	const int kiY = m_iHeight - 50;
@@ -790,11 +775,8 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Bullet has hit the invader. Destroy the invader and the bullet.
 			m_vecInvaders[i]->SetHit( true );
-			if(m_iBulletPierce != 1 )
-			{
-				delete m_pPlayerBullet;
-				m_pPlayerBullet = nullptr;
-			}
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
 			// Increase score
 			m_iScore += 10;
 			return( true );
@@ -842,11 +824,8 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
-			if(m_iBulletPierce != 1 )
-			{
-				delete m_pPlayerBullet;
-				m_pPlayerBullet = nullptr;
-			}
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
 			return( true );
 		}
 	}
@@ -868,11 +847,8 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
-			if(m_iBulletPierce != 1 )
-			{
-				delete m_pPlayerBullet;
-				m_pPlayerBullet = nullptr;
-			}
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
 			return( true );
 		}
 	}
@@ -894,11 +870,8 @@ bool CLevel::CheckPlayerBulletCollision()
 		{
 			//Change health and destroy bullet
 			m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
-			if(m_iBulletPierce != 1 )
-			{
-				delete m_pPlayerBullet;
-				m_pPlayerBullet = nullptr;
-			}
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = nullptr;
 			return( true );
 		}
 	}
@@ -1005,18 +978,6 @@ void CLevel::SetBulletSpeed( int _iSpeed )
 
 /***********************
 
- * GetBulletSpeed: Get the bullet speed
- * @author: 
- * @return: int
-
- ********************/
-int CLevel::GetBulletSpeed()
-{
-	return( m_iBulletSpeed );
-}
-
-/***********************
-
  * SetInvaderSpeed: Set the invader speed
  * @author: 
  * @parameter: int _iSpeed, speed to set
@@ -1030,166 +991,16 @@ void CLevel::SetInvaderSpeed( int _iSpeed )
 		// Set speed
 		m_vecInvaders[ i ]->m_iSpeed = _iSpeed;
 	}
-
-	m_iInvaderSpeed = _iSpeed;
 }
 
 /***********************
 
- * GetInvaderSpeed: Get the invader speed
+ * GetScore: Return the player score
  * @author: 
- * @return: int
+ * @return: int 
 
  ********************/
-int CLevel::GetInvaderSpeed()
+int CLevel::GetScore() const
 {
-	return( m_iInvaderSpeed );
-}
-
-/***********************
-
- * SetInvaderInvincible: Set the invader invincibility
- * @author: 
- * @parameter: int _iInv, to set
-
- ********************/
-void CLevel::SetPlayerInvincible( int _iInv )
-{
-	m_iPlayerInv = _iInv;
-}
-
-/***********************
-
- * GetPlayerInvincible: Get the player invincibility
- * @author: 
- * @return: int
-
- ********************/
-int CLevel::GetPlayerInvincible()
-{
-	return( m_iPlayerInv );
-}
-
-/***********************
-
- * SetInvaderInvincible: Set the invader invincibility
- * @author: 
- * @parameter: int _iInv, to set
-
- ********************/
-void CLevel::SetBulletPierce( int _iInv )
-{
-	m_iBulletPierce = _iInv;
-}
-
-/***********************
-
- * GetBulletPierce: Get the bullet pierce
- * @author: 
- * @return: int
-
- ********************/
-int CLevel::GetBulletPierce()
-{
-	return( m_iBulletPierce );
-}
-
-/***********************
-
- * CheckBarrierInvaderCollision: Check if the invaders are colliding with barriers
- * @author: 
- * @return: bool
-
- ********************/
-bool CLevel::CheckBarrierInvaderCollision()
-{
-	// initialise x, y 
-	int iInvaderX;
-	int iInvaderY;
-	int iInvaderW;
-	int iInvaderH;
-	int iBarrierX;
-	int iBarrierY;
-	int iBarrierHealth;
-
-	//Check Barrier 1 for collision
-	for (unsigned int i=0; i < m_vecBarrier1.size(); i++)
-	{
-		//Get X, Y and Health
-		iBarrierX = m_vecBarrier1[i]->GetX();
-		iBarrierY = m_vecBarrier1[i]->GetY();
-		iBarrierHealth = m_vecBarrier1[i]->GetHealth();
-
-		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
-		{
-			iInvaderX = m_vecInvaders[ j ]->GetX();
-			iInvaderY = m_vecInvaders[ j ]->GetY();
-			//Check if collides
-			if( (iBarrierHealth > 0) && 
-				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
-				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
-				( iInvaderY >= iBarrierY ) &&
-				( iInvaderY <= iBarrierY + 10 ) 
-			  )
-			{
-				//Change health 
-				m_vecBarrier1[i]->SetHealth(iBarrierHealth-1);
-				return( true );
-			}
-		}
-	}
-
-	//Check Barrier 2 for collision
-	for (unsigned int i=0; i < m_vecBarrier2.size(); i++)
-	{
-		//Get X, Y and Health
-		iBarrierX = m_vecBarrier2[i]->GetX();
-		iBarrierY = m_vecBarrier2[i]->GetY();
-		iBarrierHealth = m_vecBarrier2[i]->GetHealth();
-		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
-		{
-			iInvaderX = m_vecInvaders[ j ]->GetX();
-			iInvaderY = m_vecInvaders[ j ]->GetY();
-			//Check if collides
-			if( (iBarrierHealth > 0) && 
-				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
-				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
-				( iInvaderY >= iBarrierY ) &&
-				( iInvaderY <= iBarrierY + 10 ) 
-			  )
-			{
-				//Change health 
-				m_vecBarrier2[i]->SetHealth(iBarrierHealth-1);
-				return( true );
-			}
-		}
-	}
-
-	//Check Barrier 3 for collision
-	for (unsigned int i=0; i < m_vecBarrier3.size(); i++)
-	{
-		//Get X, Y and Health
-		iBarrierX = m_vecBarrier3[i]->GetX();
-		iBarrierY = m_vecBarrier3[i]->GetY();
-		iBarrierHealth = m_vecBarrier3[i]->GetHealth();
-		for( unsigned int j = 0; j < m_vecInvaders.size(); ++j )
-		{
-			iInvaderX = m_vecInvaders[ j ]->GetX();
-			iInvaderY = m_vecInvaders[ j ]->GetY();
-			//Check if collides
-			if( (iBarrierHealth > 0) && 
-				(( iInvaderX >= iBarrierX ) || ( iInvaderX + 4 >= iBarrierX )) && 
-				(( iInvaderX <= iBarrierX + 10 ) || ( iInvaderX + 4 <= iBarrierX + 10 )) &&
-				( iInvaderY >= iBarrierY ) &&
-				( iInvaderY <= iBarrierY + 10 ) 
-			  )
-			{
-				//Change health 
-				m_vecBarrier3[i]->SetHealth(iBarrierHealth-1);
-				return( true );
-			}
-		}
-	}
-
-	return( false );
+	return (m_iScore);
 }

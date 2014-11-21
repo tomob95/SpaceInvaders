@@ -12,11 +12,18 @@
 // Mail			: kelsey.scheurich@mediadesign.school.nz
 //
 
+// Library Includes
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <map>
+
 // Local Includes
 #include "Clock.h"
 #include "BackBuffer.h"
 #include "utils.h"
 #include "Level.h"
+#include "resource.h"
 
 // This Include
 #include "Game.h"
@@ -241,6 +248,11 @@ CLevel* CGame::GetLevel()
  ********************/
 void CGame::GameOver()
 {
+	//Show score dialog box
+	//
+	InputHighScore();
+	DisplayHighScore();
+	
 	PostQuitMessage(0);
 }
 
@@ -252,26 +264,145 @@ void CGame::GameOver()
  *				int _iBulletSpeed, speed of bullet
 
  ********************/
-void CGame::SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iPlayerInv, int _iBulletPierce )
+void CGame::SetDlgProperties( int _iInvSpeed, int _iBulletSpeed )
 {
 	m_pLevel->SetBulletSpeed( _iBulletSpeed );
 	m_pLevel->SetInvaderSpeed( _iInvSpeed );
-	m_pLevel->SetPlayerInvincible( _iPlayerInv );
-	m_pLevel->SetBulletPierce( _iBulletPierce );
 }
 
 /*******************
 
- * SetDlgProperties: Set the dialog values
+ * DisplayHighScore: Show the current high score list
  * @author: 
- * @parameters: int _iInvSpeed, speed of invaders
- *				int _iBulletSpeed, speed of bullet
+ * @return: void
 
  ********************/
-void CGame::GetDlgProperties()
+void CGame::DisplayHighScore()
 {
-	m_iInvSpeed = m_pLevel->GetInvaderSpeed();
-	m_iBulletSpeed = m_pLevel->GetBulletSpeed();
-	m_iPlyInvincible = m_pLevel->GetPlayerInvincible();
-	m_iBulletPierce = m_pLevel->GetBulletPierce();
+	std::string sInput;
+	std::string sName;
+	int iScore;
+	
+	m_mHighScores.clear();
+
+	std::ifstream ifs;
+	ifs.open("HighScores.txt");
+	if(!ifs.is_open() || !ifs.good())
+	{
+		MessageBox(0, "No High Scores could be found", "Space Invaders", MB_OK);
+	}
+	while(std::getline(ifs, sInput))
+	{
+
+		size_t pos = sInput.find(":",0);
+		sName = sInput.substr(0, pos);
+		sInput.erase(0, pos + 1);
+		iScore = std::stoi(sInput);
+		// do something with token
+		m_mHighScores.insert(std::pair<int, std::string>(iScore, sName));
+
+	}
+	DialogBox(GetAppInstance(), MAKEINTRESOURCE( IDD_DIALOG3 ), GetWindow(), (DLGPROC)HighScoreDialogProc);
+}
+
+/*******************
+
+ * InputHighScore: Prompt the user to input their name to store their score
+ * @author: 
+ * @return: void
+
+ ********************/
+void CGame::InputHighScore()
+{
+	DialogBox( GetAppInstance(), MAKEINTRESOURCE( IDD_DIALOG2 ), GetWindow(), (DLGPROC)InputDialogProc);
+}
+
+
+BOOL CALLBACK CGame::InputDialogProc( HWND _hDlg,UINT _msg,WPARAM _wparam,LPARAM _lparam )
+{
+	int _iScore = CGame::GetInstance().GetLevel()->GetScore();
+	switch(_msg)
+	{
+	case WM_INITDIALOG:
+		{
+			int _iScore = CGame::GetInstance().GetLevel()->GetScore();
+			SetDlgItemText(_hDlg, IDC_SCORETEXT, ToString(_iScore).c_str());
+			return TRUE;
+		}
+		break;
+	case WM_CLOSE:
+		{
+			EndDialog( _hDlg, 1 );
+			return( true );
+		}
+		break;
+
+	case WM_COMMAND:
+		{
+			switch(_wparam)
+			{
+			case IDOK:
+				{
+					//Insert name into high scores
+					char _cName[256];
+					if(!GetDlgItemText(_hDlg, IDC_NAMEINPUT, _cName, 256))
+					{
+						MessageBox(0, "Please enter a name", "Space Invaders", MB_OK);
+						return( false );
+					}
+					std::ofstream out;
+					out.open("HighScores.txt", std::ios::app);
+					out << '\n' + ToString(_cName) + ':' + ToString(_iScore);
+					out.close();
+					EndDialog( _hDlg, 1 );
+					return( true );
+				}
+				break;
+			}
+
+			return( true );
+		}
+		break;
+	}
+	return FALSE;
+}
+
+BOOL CALLBACK CGame::HighScoreDialogProc( HWND _hDlg,UINT _msg,WPARAM _wparam,LPARAM _lparam )
+{
+	switch(_msg)
+	{
+	case WM_INITDIALOG:
+		{
+			std::string sInput;
+			std::multimap<int, std::string>::iterator it;
+			for (it = CGame::GetInstance().m_mHighScores.begin(); it != CGame::GetInstance().m_mHighScores.end(); ++it)
+			{
+				sInput = ToString((*it).first) + " - " + ToString((*it).second);
+				SendDlgItemMessage(_hDlg, IDC_LIST1, LB_INSERTSTRING, 0, (LPARAM)sInput.c_str());  
+			 }
+			return TRUE;
+		}
+		break;
+	case WM_CLOSE:
+		{
+			EndDialog( _hDlg, 1 );
+			return( true );
+		}
+		break;
+	case WM_COMMAND:
+		{
+			switch(_wparam)
+			{
+			case IDOK:
+				{
+					EndDialog( _hDlg, 1 );
+					return true;
+				}
+				break;
+			}
+			return ( true );
+		}
+		break;
+	}
+	return FALSE;
 }

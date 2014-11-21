@@ -20,6 +20,7 @@
 // Library Includes
 #include <windows.h>
 #include <vector>
+#include <map>
 
 // Local Includes
 #include "clock.h"
@@ -47,8 +48,12 @@ public:
 	HWND GetWindow();
 	void SetMouseCoords(int _iX, int _iY);
 	void GameOver();
-	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed, int _iPlayerInv, int _iBulletPierce );
-	void GetDlgProperties();
+	void SetDlgProperties( int _iInvSpeed, int _iBulletSpeed );
+	void InputHighScore();
+	void DisplayHighScore();
+	static BOOL CALLBACK InputDialogProc( HWND _hDlg,UINT _msg,WPARAM _wparam,LPARAM _lparam );
+	static BOOL CALLBACK HighScoreDialogProc( HWND _hDlg,UINT _msg,WPARAM _wparam,LPARAM _lparam );
+
 
 	// Singleton Methods
 	static CGame& GetInstance();
@@ -68,11 +73,7 @@ protected:
 	CClock* m_pClock;
 	CBackBuffer* m_pBackBuffer;
 	CLevel* m_pLevel;
-	int m_iInvSpeed;
-	int m_iBulletSpeed;
-	int m_iInvInvincible;
-	int m_iPlyInvincible;
-	int m_iBulletPierce;
+	std::multimap<int, std::string> m_mHighScores;
 
 	//Application data
 	HINSTANCE m_hApplicationInstance;

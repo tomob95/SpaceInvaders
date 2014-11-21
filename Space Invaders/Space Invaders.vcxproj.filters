@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\Barrier">
       <UniqueIdentifier>{30400030-ec6b-461c-9fe6-cc633b7327ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Music">
+      <UniqueIdentifier>{0b9ba3e8-2c84-4937-9c64-c6a88f3fbe84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,27 +123,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom0.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom1.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle0.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle1.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Player.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top0.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="sprites\5.bmp">
       <Filter>Resource Files\Barrier</Filter>
     </None>
@@ -162,6 +144,24 @@
     <None Include="sprites\bitmap2.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Music\GameMusic.wav">
+      <Filter>Resource Files\Music</Filter>
+    </None>
+    <None Include="Sprites\Bottom1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sprites\Middle0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sprites\Middle1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sprites\Top0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sprites\Top1.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprites\Invader.bmp">
@@ -171,21 +171,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\Player.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Bottom1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Middle0.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Middle1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Top0.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Top1.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="sprites\Bullet.bmp">

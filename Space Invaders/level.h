@@ -49,13 +49,8 @@ class CLevel
 		bool CreateSpecialInvader();
 		void ResetInvaders();
 		void SetBulletSpeed( int _iSpeed );
-		int GetBulletSpeed();
 		void SetInvaderSpeed( int _iSpeed );
-		int GetInvaderSpeed();
-		void SetPlayerInvincible( int _iInv );
-		int GetPlayerInvincible();
-		void SetBulletPierce( int _iInv );
-		int GetBulletPierce();
+		int GetScore() const;
 
 
 
@@ -67,7 +62,6 @@ class CLevel
 		bool ProcessInvaderWallCollision(float _fDeltaTick);
 		bool ProcessSpecialWallCollision(float _fDeltaTick);
 		bool CheckPlayerBulletCollision();
-		bool CheckBarrierInvaderCollision();
 
 	private:
 		float m_fTimeElapsed;
@@ -93,8 +87,6 @@ class CLevel
 		std::string m_strScore;
 		int m_iBulletSpeed;
 		int m_iInvaderSpeed;
-		int m_iBulletPierce;
-		int m_iPlayerInv;
 		int m_fMouseX;
 		int m_fMouseY;
 		CSPInvader* m_pSpecialInvader;

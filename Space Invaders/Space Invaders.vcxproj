@@ -27,8 +27,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -59,12 +59,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -83,6 +82,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -124,20 +124,19 @@
     <ResourceCompile Include="Framework.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom0.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Bottom1.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle0.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Middle1.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Player.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top0.png" />
-    <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png" />
+    <None Include="Music\GameMusic.wav" />
     <None Include="sprites\5.bmp" />
     <None Include="sprites\4.bmp" />
     <None Include="sprites\3.bmp" />
     <None Include="sprites\2.bmp" />
     <None Include="sprites\1.bmp" />
     <None Include="sprites\bitmap2.bmp" />
+    <None Include="Sprites\Bottom1.png" />
+    <None Include="Sprites\Middle0.png" />
+    <None Include="Sprites\Middle1.png" />
     <None Include="Sprites\Special.bmp" />
+    <None Include="Sprites\Top0.png" />
+    <None Include="Sprites\Top1.png" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="sprites\Bullet.bmp" />

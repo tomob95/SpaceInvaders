@@ -16,7 +16,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <time.h>
-#include "vld.h"
+//#include "vld.h"
 
 //Local Includes
 #include "Game.h"
@@ -52,36 +52,9 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 		// Initialisation
 	case WM_INITDIALOG:
 		{
-			// Get current checked values
-			int iCheckedPly = CGame::GetInstance().GetLevel()->GetPlayerInvincible();
-			int iCheckedBullet = CGame::GetInstance().GetLevel()->GetBulletPierce();
-
 			// Initialise input text boxes
-			SetDlgItemInt( _hDlg, IDC_EDIT1, CGame::GetInstance().GetLevel()->GetInvaderSpeed(), 1 );
-			SetDlgItemInt( _hDlg, IDC_EDIT2, CGame::GetInstance().GetLevel()->GetBulletSpeed(), 1 );
-
-			// If button is not checked
-			if( iCheckedPly == 0 )
-			{
-				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_UNCHECKED );
-			}
-			// Else if it is
-			else if( iCheckedPly == 1 )
-			{
-				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_CHECKED );
-			}
-
-			// If button is not checked
-			if( iCheckedBullet == 0 )
-			{
-				CheckDlgButton( _hDlg, IDC_BUL_P, BST_UNCHECKED );
-			}
-			// Else if it is
-			else if( iCheckedBullet == 1 )
-			{
-				CheckDlgButton( _hDlg, IDC_BUL_P, BST_CHECKED );
-			}
-
+			SetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
+			SetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
 			return( true );
 		}
 		break;
@@ -106,18 +79,11 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 					int iInvaderSpeed = GetDlgItemInt( _hDlg, IDC_EDIT1, 0, 1 );
 					int iBulletSpeed = GetDlgItemInt( _hDlg, IDC_EDIT2, 0, 1 );
 
-					int iPlyInvincible = IsDlgButtonChecked( _hDlg, IDC_PLY_INV );
-					int iBulletPierce = IsDlgButtonChecked( _hDlg, IDC_BUL_P );
-
 					// Validate input
 					if( iInvaderSpeed > 0 && iBulletSpeed > 0 )
 					{
 						// If valid, process into game
-						//CGame::GetInstance().SetDlgProperties( iInvaderSpeed, iBulletSpeed, iInvInvincible, iPlyInvincible, iBulletPierce );
-						CGame::GetInstance().GetLevel()->SetInvaderSpeed( iInvaderSpeed );
-						CGame::GetInstance().GetLevel()->SetBulletSpeed( iBulletSpeed );
-						CGame::GetInstance().GetLevel()->SetPlayerInvincible( iPlyInvincible );
-						CGame::GetInstance().GetLevel()->SetBulletPierce( iBulletPierce );
+						CGame::GetInstance().SetDlgProperties( iInvaderSpeed, iBulletSpeed );
 					}
 					else
 					{
@@ -222,12 +188,6 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 		}
 		break;
 
-		case WM_RBUTTONDOWN:
-			{
-				CGame::GetInstance().GetLevel()->ResetInvaders();
-			}
-			break;
-
 		default:break;
 	}
 
@@ -321,6 +281,8 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 		// Failed
 		return (0);
 	}
+
+	PlaySound(MAKEINTRESOURCE(IDR_WAVE1), NULL, SND_ASYNC | SND_RESOURCE | SND_LOOP );
 
 	// Main event loops
 	// While the user has not quite
