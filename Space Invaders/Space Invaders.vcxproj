@@ -131,6 +131,7 @@
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Player.png" />
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top0.png" />
     <None Include="D:\Libraries\Pictures\Sprites\SpaceInvader\Top1.png" />
+    <None Include="Music\GameMusic.wav" />
     <None Include="sprites\5.bmp" />
     <None Include="sprites\4.bmp" />
     <None Include="sprites\3.bmp" />

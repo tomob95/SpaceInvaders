@@ -222,12 +222,6 @@ LRESULT CALLBACK WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lPa
 		}
 		break;
 
-		case WM_RBUTTONDOWN:
-			{
-				CGame::GetInstance().GetLevel()->ResetInvaders();
-			}
-			break;
-
 		default:break;
 	}
 
@@ -321,6 +315,8 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdl
 		// Failed
 		return (0);
 	}
+
+	PlaySound(MAKEINTRESOURCE(IDR_WAVE1), NULL, SND_ASYNC | SND_RESOURCE | SND_LOOP );
 
 	// Main event loops
 	// While the user has not quite

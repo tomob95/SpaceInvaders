@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\Barrier">
       <UniqueIdentifier>{30400030-ec6b-461c-9fe6-cc633b7327ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Music">
+      <UniqueIdentifier>{436ad7b5-58d3-419a-82ec-ea257bb76091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +164,9 @@
     </None>
     <None Include="sprites\bitmap2.bmp">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Music\GameMusic.wav">
+      <Filter>Resource Files\Music</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -178,13 +178,13 @@ bool CLevel::Initialise(int _iWidth, int _iHeight)
 	}
 
 	// Set the barrier x & y
-	int _iBarrier1X = 150;
+	int _iBarrier1X = 180;
 	int _iBarrier1Y = 650;
 
-	int _iBarrier2X = 350;
+	int _iBarrier2X = 380;
 	int _iBarrier2Y = 650;
 
-	int _iBarrier3X = 550;
+	int _iBarrier3X = 580;
 	int _iBarrier3Y = 650;
 
 	/**************************
@@ -1192,4 +1192,16 @@ bool CLevel::CheckBarrierInvaderCollision()
 	}
 
 	return( false );
+}
+
+/***********************
+
+ * GetScore: Return the player score
+ * @author: 
+ * @return: int 
+
+ ********************/
+int CLevel::GetScore() const
+{
+	return (m_iScore);
 }

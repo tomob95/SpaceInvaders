@@ -56,6 +56,7 @@ class CLevel
 		int GetPlayerInvincible();
 		void SetBulletPierce( int _iInv );
 		int GetBulletPierce();
+		int GetScore() const;
 
 
 
