@@ -60,19 +60,23 @@ BOOL CALLBACK SettingsDialogProc( HWND _hDlg,
 			SetDlgItemInt( _hDlg, IDC_EDIT1, CGame::GetInstance().GetLevel()->GetInvaderSpeed(), 1 );
 			SetDlgItemInt( _hDlg, IDC_EDIT2, CGame::GetInstance().GetLevel()->GetBulletSpeed(), 1 );
 
+			// If button is not checked
 			if( iCheckedPly == 0 )
 			{
 				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_UNCHECKED );
 			}
+			// Else if it is
 			else if( iCheckedPly == 1 )
 			{
 				CheckDlgButton( _hDlg, IDC_PLY_INV, BST_CHECKED );
 			}
 
+			// If button is not checked
 			if( iCheckedBullet == 0 )
 			{
 				CheckDlgButton( _hDlg, IDC_BUL_P, BST_UNCHECKED );
 			}
+			// Else if it is
 			else if( iCheckedBullet == 1 )
 			{
 				CheckDlgButton( _hDlg, IDC_BUL_P, BST_CHECKED );
